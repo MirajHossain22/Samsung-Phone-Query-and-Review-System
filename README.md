@@ -68,6 +68,19 @@ pytest -q
 | Chatbot (RAG) | `rag.py`, `chatbot.py`, `llm.py` | Detects phone names (`S23 Ultra` ≠ `S23`), retrieves the relevant spec chunks, then answers. Rankings/comparisons are computed in code from the DB; the LLM only phrases the answer. Open-source LLM via Ollama/HF, or OpenAI; works without any LLM. |
 | Multi-agent | `agents.py` (default), `crew_adapter.py` (CrewAI) | Retrieval agent → review-writer agent; the API returns an execution trace. Pros/cons come from ranking the phone against the others in the DB. |
 | API | `api.py` | `POST /chat`, `POST /review`, `GET /compare`, `GET /phones`, `GET /phones/{name}`, `GET /health`, `POST /admin/reload` |
+| Web Interface | `static/index.html` | 3-Column Glassmorphic Workspace with cosmic starfield, soundwave input animation, live DB pulsing quantum loader, and dynamic comparator. |
+
+## Frontend Experience & UI/UX Design
+
+The application features a modern 3-column workspace following 60-30-10 color harmony and tactile micro-interactions:
+
+- **Cosmic Starfield Canvas (Uiverse by amir_6539):** Animated 3-layer parallax deep-space starfield drifting behind the Chat & Multi-Agent Workspace with dark radial cosmos gradient.
+- **Full-Width Soundwave Equalizer (Uiverse by JkHuger):** 32-bar harmonic soundwave visualizer spanning across the message text box that dynamically animates while idle and smoothly dismisses upon typing text.
+- **Pulsing Quantum Dot Loader (Uiverse by Li-Deheng):** Live database status indicator with adaptive Day/Night mode styling (`#38bdf8` in Night Mode, `#047857` in Day Mode).
+- **Neon Lime Action Button (Uiverse by alexmaracinaru):** High-contrast `#cfef00` pill send button with sliding SVG arrow micro-interaction.
+- **Dynamic 2-Model Comparator Widget:** Quick Model A vs Model B dropdown selectors for side-by-side spec comparison of any two Galaxy models.
+- **Day / Night Theming:** Tactile theme toggle switching between dark fluted glass with cosmic starfield and light frosted liquid glass with 60% background visibility.
+- **UI Arc Morphing Tabs & Bencho EyeTracker:** Smooth pill sliding physics and cursor tracking on the navigation rail.
 
 ## Example calls
 

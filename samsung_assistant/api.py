@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel, Field
 
 from .agents import Orchestrator
@@ -60,6 +60,13 @@ def create_app(db: Database | None = None) -> FastAPI:
                 html = html.replace("__SERVER_PHONES_JSON__", "[]")
             return HTMLResponse(content=html)
         return HTMLResponse(content="<h1>Samsung Phone Assistant API</h1><p>Visit <a href='/docs'>/docs</a></p>")
+
+    @app.get("/bg.jpg")
+    def background_image():
+        bg_path = Path(__file__).parent / "static" / "bg.jpg"
+        if bg_path.exists():
+            return FileResponse(bg_path, media_type="image/jpeg")
+        raise HTTPException(404, "Background not found")
 
     @app.get("/health")
     def health():
