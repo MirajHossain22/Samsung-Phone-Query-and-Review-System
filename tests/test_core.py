@@ -192,7 +192,8 @@ def test_review_handles_missing_weight():
 
 
 # ---------------------------------------------------------------------- API
-def test_api_endpoints():
+def test_api_endpoints(monkeypatch):
+    monkeypatch.setenv("LLM_BACKEND", "none")
     pytest.importorskip("fastapi")
     pytest.importorskip("httpx")
     from fastapi.testclient import TestClient
@@ -205,6 +206,7 @@ def test_api_endpoints():
         r.upsert_phone(rec)
     with TestClient(create_app(db)) as c:
         assert c.get("/").status_code == 200
+        assert c.get("/input.js").headers["content-type"].startswith("text/javascript")
         assert c.get("/health").json()["phones_in_db"] == 12
         assert "6.1 inches" in c.post("/chat", json={"question": "screen size of the Galaxy S22?"}).json()["answer"]
         assert c.post("/review", json={"phone": "S23 Ultra"}).json()["found"] is True

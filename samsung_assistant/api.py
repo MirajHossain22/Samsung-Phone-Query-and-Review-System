@@ -68,6 +68,10 @@ def create_app(db: Database | None = None) -> FastAPI:
             return FileResponse(bg_path, media_type="image/jpeg")
         raise HTTPException(404, "Background not found")
 
+    @app.get("/input.js")
+    def sakuga_input():
+        return FileResponse(Path(__file__).parent / "static" / "input.js", media_type="text/javascript")
+
     @app.get("/health")
     def health():
         return {"status": "ok", "phones_in_db": state["repo"].count(),

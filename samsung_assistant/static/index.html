@@ -6,6 +6,7 @@
   <title>Samsung Phone Query & Review Workspace</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/input.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -377,15 +378,34 @@
       color: #047857 !important;
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
     }
-    body.light-theme #user-input::placeholder {
-      color: #475569 !important;
+    #user-input {
+      display: block;
+      width: 100%;
+      --sk-input-width: 100%;
+      --sk-card: rgba(22, 32, 27, 0.9);
+      --sk-ink: #f8fafc;
+      --sk-dim: #94a3b8;
+      --sk-soft: rgba(16, 185, 129, 0.35);
+      --sk-pri: #34d399;
+      --sk-acc: #cfef00;
+      --sk-bw: 1px;
+      --sk-r: 12px;
+      --sk-sh: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+    #user-input::part(input) {
+      width: 100%;
+      padding: 12px 7rem 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
     }
     body.light-theme #user-input {
-      color: #090d16 !important;
-      font-weight: 600;
-    }
-    #user-input::placeholder {
-      color: #94a3b8;
+      --sk-card: rgba(255, 255, 255, 0.94);
+      --sk-ink: #090d16;
+      --sk-dim: #475569;
+      --sk-soft: rgba(4, 120, 87, 0.25);
+      --sk-pri: #047857;
+      --sk-acc: #047857;
+      --sk-sh: 0 6px 18px rgba(15, 23, 42, 0.12);
     }
 
     /* Prose styling */
@@ -520,123 +540,6 @@
       opacity: 0.45;
       cursor: not-allowed;
       pointer-events: none;
-    }
-
-    /* =========================================================
-       UIVERSE WAVE MENU ANIMATION (From Uiverse.io by JkHuger)
-       Spans across the whole message text box until user types
-       ========================================================= */
-    #input-wave-container {
-      position: absolute;
-      left: 18px;
-      right: 120px;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
-      z-index: 5;
-      cursor: text;
-    }
-
-    #input-wave-container.wave-hidden {
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.96);
-      pointer-events: none;
-    }
-
-    #user-input.wave-active::placeholder {
-      color: transparent !important;
-    }
-
-    .wave-menu {
-      width: 100%;
-      height: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      transition: ease 0.2s;
-      position: relative;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    .wave-menu li {
-      list-style: none;
-      height: 22px;
-      width: 3.5px;
-      border-radius: 6px;
-      background: #545FE5;
-      margin: 0 1px;
-      padding: 0;
-      animation-name: wave1;
-      animation-duration: 0.45s;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-      transition: ease 0.2s;
-      flex-shrink: 0;
-    }
-
-    .wave-menu:hover li {
-      background: #38bdf8;
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
-    }
-
-    body.light-theme .wave-menu li {
-      background: #4f46e5;
-    }
-
-    body.light-theme .wave-menu:hover li {
-      background: #047857;
-      box-shadow: 0 0 8px rgba(4, 120, 87, 0.4);
-    }
-
-    .wave-menu li:nth-child(2n) {
-      animation-name: wave2;
-      animation-delay: 0.12s;
-      animation-duration: 0.55s;
-    }
-
-    .wave-menu li:nth-child(3n) {
-      animation-name: wave3;
-      animation-delay: 0.22s;
-      animation-duration: 0.4s;
-    }
-
-    .wave-menu li:nth-child(4n) {
-      animation-name: wave4;
-      animation-delay: 0.32s;
-      animation-duration: 0.5s;
-    }
-
-    .wave-menu li:nth-child(5n) {
-      animation-delay: 0.08s;
-      animation-duration: 0.38s;
-    }
-
-    @keyframes wave1 {
-      from { transform: scaleY(1); }
-      to { transform: scaleY(0.4); }
-    }
-
-    @keyframes wave2 {
-      from { transform: scaleY(0.25); }
-      to { transform: scaleY(0.75); }
-    }
-
-    @keyframes wave3 {
-      from { transform: scaleY(0.5); }
-      to { transform: scaleY(0.9); }
-    }
-
-    @keyframes wave4 {
-      from { transform: scaleY(0.15); }
-      to { transform: scaleY(0.6); }
     }
 
     /* =========================================================
@@ -3102,7 +3005,7 @@
   <!-- =========================================================
        COLUMN 2: Middle Catalog Column with STAR OF THE SHOW
        ========================================================= -->
-  <section class="w-80 md:w-96 panel-catalog rounded-2xl flex flex-col p-3.5 shrink-0 overflow-hidden">
+  <section class="w-80 md:w-96 panel-catalog rounded-2xl hidden md:flex flex-col p-3.5 shrink-0 overflow-hidden">
     
     <!-- Top Filter Tabs (Pushing past first idea) -->
     <div class="flex items-center justify-between pb-2 border-b border-slate-700/30">
@@ -3239,26 +3142,15 @@
     <!-- Bottom Input Container -->
     <div class="p-3 md:p-4 border-t border-slate-700/30 shrink-0 relative z-10">
       <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-center max-w-3xl mx-auto">
-        <div id="input-wrapper" class="w-full relative rounded-xl search-input-box transition duration-150">
-          <input 
-            id="user-input" 
-            type="text" 
-            placeholder="Send a message about Samsung phones (specs, camera, battery, compare)..." 
-            class="w-full bg-transparent text-xs sm:text-sm rounded-xl py-3 pl-3.5 pr-28 outline-none text-white font-mono wave-active"
+        <div id="input-wrapper" class="w-full relative rounded-xl transition duration-150">
+          <sakuga-input
+            id="user-input"
+            name="question"
+            type="text"
+            label="Ask about Samsung phones"
+            placeholder="Send a message about Samsung phones (specs, camera, battery, compare)..."
             autocomplete="off"
-            oninput="updateInputWave()"
-            onfocus="updateInputWave()"
-            onblur="updateInputWave()"
-          />
-          <!-- From Uiverse.io by JkHuger: Animated Wave Menu spanning the whole text box until user starts text -->
-          <div id="input-wave-container" onclick="document.getElementById('user-input').focus()" title="Click or type to start chatting">
-            <ul class="wave-menu">
-              <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-              <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-              <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-              <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-            </ul>
-          </div>
+          ></sakuga-input>
           <!-- From Uiverse.io by alexmaracinaru -->
           <button 
             id="send-btn" 
@@ -3466,7 +3358,6 @@
           }
         });
       }
-      updateInputWave();
     });
 
     // Update Hardware Spotlight (The "Star of the Show")
@@ -3599,23 +3490,8 @@
       }
     }
 
-    function updateInputWave() {
-      const input = document.getElementById('user-input');
-      const wave = document.getElementById('input-wave-container');
-      if (!input || !wave) return;
-      const hasText = input.value && input.value.trim().length > 0;
-      if (hasText) {
-        wave.classList.add('wave-hidden');
-        input.classList.remove('wave-active');
-      } else {
-        wave.classList.remove('wave-hidden');
-        input.classList.add('wave-active');
-      }
-    }
-
     function askPreset(text) {
       userInput.value = text;
-      updateInputWave();
       handleSubmit();
     }
 
@@ -3623,7 +3499,6 @@
       chatMessages.innerHTML = '';
       chatMessages.appendChild(welcomeHero);
       welcomeHero.classList.remove('hidden');
-      updateInputWave();
     }
 
     async function handleSubmit(e) {
@@ -3632,7 +3507,6 @@
       if (!query) return;
 
       userInput.value = '';
-      updateInputWave();
       welcomeHero.classList.add('hidden');
 
       appendUserMessage(query);
