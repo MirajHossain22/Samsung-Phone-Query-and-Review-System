@@ -20,6 +20,7 @@
           colors: {
             brand: {
               50: '#ecfdf5',
+              100: '#d1fae5',
               400: '#34d399',
               500: '#10b981',
               600: '#059669',
@@ -27,14 +28,6 @@
               800: '#064e3b',
               900: '#063f31',
               950: '#022c22',
-            },
-            dark: {
-              bg: '#050907',
-              sidebar: '#08100d',
-              card: '#0d1813',
-              cardHover: '#12221b',
-              border: 'rgba(16, 185, 129, 0.16)',
-              borderStrong: 'rgba(52, 211, 153, 0.35)',
             }
           }
         }
@@ -43,141 +36,131 @@
   </script>
   <style>
     /* =========================================================
-       THEME SYSTEM (UI 60-30-10 RULE)
-       Night Mode (Default): 60% Obsidian, 30% Dark Glass, 10% Emerald
-       Day Mode:             60% Slate-50, 30% Crisp White, 10% Emerald
+       NIGHT MODE (Default): Dark Green-Black Obsidian Design
+       DAY MODE: Clean White / Soft Neutral Workspace Layout (From Image)
        ========================================================= */
 
+    /* ---------------- NIGHT MODE STYLES ---------------- */
     body {
       background-color: #050907;
       color: #e5e7eb;
       background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -15%, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.05) 55%, transparent 100%),
-        radial-gradient(circle at 90% 85%, rgba(20, 184, 166, 0.1), transparent 45%),
-        radial-gradient(circle at 10% 70%, rgba(16, 185, 129, 0.08), transparent 40%),
-        radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px),
-        linear-gradient(rgba(16, 185, 129, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16, 185, 129, 0.025) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px, 36px 36px;
-      background-attachment: fixed;
-      transition: background-color 0.35s ease, color 0.35s ease;
-    }
-
-    /* Day Mode (Light Theme - 60-30-10 Rule) */
-    body.light-theme {
-      background-color: #f8fafc;
-      color: #0f172a;
-      background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -15%, rgba(16, 185, 129, 0.14), rgba(5, 150, 105, 0.03) 55%, transparent 100%),
+        radial-gradient(ellipse 80% 50% at 50% -15%, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.05) 55%, transparent 100%),
         radial-gradient(circle at 90% 85%, rgba(20, 184, 166, 0.08), transparent 45%),
-        radial-gradient(circle at 10% 70%, rgba(16, 185, 129, 0.06), transparent 40%),
-        radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px),
-        linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+        radial-gradient(rgba(16, 185, 129, 0.12) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 36px 36px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    body.light-theme aside {
-      background-color: rgba(255, 255, 255, 0.92) !important;
-      border-color: #e2e8f0 !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    .theme-left-nav {
+      background-color: #08100d;
+      border-color: rgba(16, 185, 129, 0.16);
+    }
+    .theme-mid-column {
+      background-color: #0a130f;
+      border-color: rgba(16, 185, 129, 0.16);
+    }
+    .theme-right-chat {
+      background-color: #0d1713;
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    .theme-card {
+      background: linear-gradient(135deg, rgba(16, 26, 21, 0.9) 0%, rgba(10, 18, 14, 0.95) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      color: #e5e7eb;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .theme-card:hover {
+      border-color: rgba(52, 211, 153, 0.5);
+      background: #14231c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -2px rgba(16, 185, 129, 0.2);
+    }
+    .theme-chip {
+      background-color: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+    }
+    .theme-input-wrap {
+      background-color: #0b1410;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #f3f4f6;
+    }
+    .theme-header {
+      background-color: rgba(8, 16, 13, 0.7);
+      border-color: rgba(16, 185, 129, 0.16);
+    }
+    .prose-content { color: #d1d5db; }
+    .prose-content strong { color: #f9fafb; font-weight: 600; }
+    .prose-content h1, .prose-content h2, .prose-content h3 { color: #34d399; font-weight: 700; }
+    .prose-content code { background: rgba(16, 185, 129, 0.14); color: #a7f3d0; font-family: monospace; }
+    .prose-content th { background: rgba(16, 185, 129, 0.12); color: #34d399; border-color: rgba(16, 185, 129, 0.25); }
+    .prose-content td { border-color: rgba(16, 185, 129, 0.1); }
+
+    /* ---------------- DAY MODE (LIGHT THEME) ---------------- */
+    body.light-theme {
+      background-color: #f3f4f6;
+      color: #111827;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08), transparent 40%),
+        radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 28px 28px;
     }
 
-    body.light-theme header {
-      background-color: rgba(255, 255, 255, 0.85) !important;
-      border-color: #e2e8f0 !important;
+    body.light-theme .theme-left-nav {
+      background-color: #ffffff;
+      border-color: #e5e7eb;
     }
-
-    body.light-theme .bg-dark-card {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    body.light-theme .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-color: rgba(16, 185, 129, 0.22);
-      box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
-      color: #1e293b;
-    }
-    body.light-theme .glass-card:hover {
-      background: #ffffff;
-      border-color: rgba(16, 185, 129, 0.5);
-      box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.18);
-    }
-
-    body.light-theme .glass-phone-item {
+    body.light-theme .theme-mid-column {
       background-color: #f8fafc;
       border-color: #e2e8f0;
     }
-    body.light-theme .glass-phone-item:hover {
-      background-color: #ecfdf5;
-      border-color: #34d399;
-    }
-
-    body.light-theme h1,
-    body.light-theme h2 {
-      color: #0f172a !important;
-    }
-    body.light-theme .text-gray-100,
-    body.light-theme .text-gray-200,
-    body.light-theme .text-white {
-      color: #0f172a !important;
-    }
-    body.light-theme .text-gray-300,
-    body.light-theme .text-gray-400 {
-      color: #475569 !important;
-    }
-    body.light-theme .text-gray-500 {
-      color: #64748b !important;
-    }
-
-    body.light-theme .bg-dark-bg\/80,
-    body.light-theme .bg-dark-bg\/70,
-    body.light-theme .bg-dark-bg\/60 {
-      background-color: #f1f5f9 !important;
-    }
-    body.light-theme .border-dark-border {
-      border-color: #e2e8f0 !important;
-    }
-
-    body.light-theme #input-wrapper {
-      background-color: #ffffff !important;
-      border-color: #cbd5e1 !important;
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08) !important;
-    }
-    body.light-theme #user-input {
-      color: #0f172a !important;
-    }
-    body.light-theme #user-input::placeholder {
-      color: #94a3b8 !important;
-    }
-
-    body.light-theme .prose-dark {
-      color: #1e293b !important;
-    }
-    body.light-theme .prose-dark strong {
-      color: #0f172a !important;
-    }
-    body.light-theme .prose-dark code {
-      background: rgba(16, 185, 129, 0.12);
-      color: #047857;
-    }
-    body.light-theme .prose-dark td {
+    body.light-theme .theme-right-chat {
+      background-color: #ffffff;
       border-color: #e2e8f0;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
-    body.light-theme .prose-dark th {
-      background: rgba(16, 185, 129, 0.1);
-      color: #047857;
-      border-color: #cbd5e1;
+    body.light-theme .theme-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #1f2937;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
-
-    body.light-theme .bg-brand-950 {
-      background-color: #ecfdf5 !important;
-      border-color: #a7f3d0 !important;
+    body.light-theme .theme-card:hover {
+      border-color: #10b981;
+      background: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.15);
     }
-    body.light-theme .text-brand-400 {
-      color: #059669 !important;
+    body.light-theme .theme-chip {
+      background-color: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
     }
+    body.light-theme .theme-input-wrap {
+      background-color: #f8fafc;
+      border: 1px solid #cbd5e1;
+      color: #0f172a;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+    body.light-theme .theme-header {
+      background-color: #ffffff;
+      border-color: #e5e7eb;
+    }
+    body.light-theme .text-white { color: #0f172a !important; }
+    body.light-theme .text-gray-100 { color: #1e293b !important; }
+    body.light-theme .text-gray-200 { color: #334155 !important; }
+    body.light-theme .text-gray-300 { color: #475569 !important; }
+    body.light-theme .text-gray-400 { color: #64748b !important; }
+    body.light-theme .text-gray-500 { color: #94a3b8 !important; }
+    body.light-theme .prose-content { color: #1f2937; }
+    body.light-theme .prose-content strong { color: #0f172a; font-weight: 600; }
+    body.light-theme .prose-content h1, 
+    body.light-theme .prose-content h2, 
+    body.light-theme .prose-content h3 { color: #059669; font-weight: 700; }
+    body.light-theme .prose-content code { background: #f1f5f9; color: #047857; font-family: monospace; }
+    body.light-theme .prose-content th { background: #f1f5f9; color: #059669; border-color: #e2e8f0; }
+    body.light-theme .prose-content td { border-color: #e2e8f0; }
 
     /* Scrollbars */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -186,80 +169,42 @@
     ::-webkit-scrollbar-thumb:hover { background: rgba(52, 211, 153, 0.45); }
 
     /* Prose styling */
-    .prose-dark { color: #d1d5db; }
-    .prose-dark strong { color: #f9fafb; font-weight: 600; }
-    .prose-dark ul { list-style-type: disc; padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
-    .prose-dark li { margin-bottom: 0.25rem; }
-    .prose-dark h1, .prose-dark h2, .prose-dark h3 { color: #10b981; font-weight: 700; margin-top: 0.75rem; margin-bottom: 0.5rem; }
-    .prose-dark p { margin-bottom: 0.5rem; line-height: 1.6; }
-    .prose-dark code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: rgba(16, 185, 129, 0.14); padding: 0.15rem 0.35rem; border-radius: 0.25rem; color: #a7f3d0; }
-    .prose-dark table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem; }
-    .prose-dark th { text-align: left; padding: 0.5rem 0.75rem; background: rgba(16, 185, 129, 0.12); color: #34d399; border-bottom: 1px solid rgba(16, 185, 129, 0.3); font-family: 'JetBrains Mono', monospace; }
-    .prose-dark td { padding: 0.45rem 0.75rem; border-bottom: 1px solid rgba(16, 185, 129, 0.1); }
-    .prose-dark tr:hover td { background: rgba(16, 185, 129, 0.05); }
+    .prose-content ul { list-style-type: disc; padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .prose-content li { margin-bottom: 0.25rem; }
+    .prose-content p { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose-content table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem; }
+    .prose-content th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid; font-family: 'JetBrains Mono', monospace; }
+    .prose-content td { padding: 0.45rem 0.75rem; border-bottom: 1px solid; }
 
-    /* Glass card micro-interactions */
-    .glass-card {
-      background: linear-gradient(135deg, rgba(13, 24, 19, 0.85) 0%, rgba(9, 16, 13, 0.95) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(16, 185, 129, 0.18);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-      transition-property: transform, border-color, box-shadow, background-color;
-      transition-duration: 200ms;
-      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    /* Interactive Transitions */
+    .interactive-card {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     }
-    .glass-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(52, 211, 153, 0.45);
-      box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.22), inset 0 1px 0 0 rgba(52, 211, 153, 0.2);
-    }
-    .glass-card:active {
-      transform: scale(0.98);
-    }
-
-    .glass-phone-item {
-      transition-property: transform, background-color, border-color;
-      transition-duration: 160ms;
-      transition-timing-function: ease-out;
-    }
-    .glass-phone-item:hover {
-      transform: translateX(4px);
-      background-color: rgba(18, 34, 27, 0.9);
-      border-color: rgba(52, 211, 153, 0.4);
-    }
-
     .interactive-btn {
-      transition-property: transform, opacity, background-color, box-shadow;
-      transition-duration: 150ms;
-      transition-timing-function: ease-out;
+      transition: transform 0.15s ease-out, background-color 0.15s, opacity 0.15s;
     }
-    .interactive-btn:active {
-      transform: scale(0.94);
-    }
+    .interactive-btn:active { transform: scale(0.95); }
 
-    /* Input typing aura */
+    /* Typing Aura */
     .input-aura-active {
-      border-color: rgba(52, 211, 153, 0.6) !important;
-      box-shadow: 0 0 30px -4px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+      border-color: #10b981 !important;
+      box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.35) !important;
     }
 
-    /* Bouncing wave dots */
-    .wave-dot {
-      animation: dotBounce 1.2s infinite ease-in-out;
-    }
+    /* Wave Dots */
+    .wave-dot { animation: dotBounce 1.2s infinite ease-in-out; }
     .wave-dot:nth-child(2) { animation-delay: 0.2s; }
     .wave-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes dotBounce {
       0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
       40% { transform: translateY(-5px); opacity: 1; }
     }
 
+    /* Typewriter Cursor */
     .typewriter-cursor::after {
       content: '▋';
       margin-left: 2px;
-      color: #34d399;
+      color: #10b981;
       animation: cursorBlink 0.8s infinite;
       font-size: 0.85em;
     }
@@ -272,37 +217,27 @@
        UIVERSE.IO THEME SWITCH (By JustCode14)
        ========================================================= */
     .switch {
-      font-size: 13px; /* Optically proportioned for header */
+      font-size: 13px;
       position: relative;
       display: inline-block;
       width: 4em;
       height: 2.2em;
       border-radius: 30px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       vertical-align: middle;
       cursor: pointer;
     }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
+    .switch input { opacity: 0; width: 0; height: 0; }
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background-color: #1a2621;
       transition: 0.4s;
       border-radius: 30px;
       overflow: hidden;
-      border: 1px solid rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
-
     .slider:before {
       position: absolute;
       content: "";
@@ -315,46 +250,27 @@
       transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
       box-shadow: inset 8px -4px 0px 0px #fff;
     }
-
     .switch input:checked + .slider {
       background-color: #00a6ff;
       border-color: #0284c7;
     }
-
     .switch input:checked + .slider:before {
       transform: translateX(1.8em);
       box-shadow: inset 15px -4px 0px 15px #ffcf48;
     }
-
     .star {
       background-color: #fff;
       border-radius: 50%;
       position: absolute;
       width: 4px;
-      transition: all 0.4s;
       height: 4px;
+      transition: all 0.4s;
     }
-
-    .star_1 {
-      left: 2.5em;
-      top: 0.5em;
-    }
-
-    .star_2 {
-      left: 2.2em;
-      top: 1.2em;
-    }
-
-    .star_3 {
-      left: 3em;
-      top: 0.9em;
-    }
-
+    .star_1 { left: 2.5em; top: 0.5em; }
+    .star_2 { left: 2.2em; top: 1.2em; }
+    .star_3 { left: 3em; top: 0.9em; }
     .switch input:checked ~ .slider .star,
-    .switch input:checked + .slider .star {
-      opacity: 0;
-    }
-
+    .switch input:checked + .slider .star { opacity: 0; }
     .cloud {
       width: 3.5em;
       position: absolute;
@@ -363,239 +279,215 @@
       opacity: 0;
       transition: all 0.4s;
     }
-
-    .switch input:checked + .slider .cloud {
-      opacity: 1;
-    }
+    .switch input:checked + .slider .cloud { opacity: 1; }
   </style>
 </head>
-<body class="h-screen flex flex-col font-sans overflow-hidden">
+<body class="h-screen flex font-sans overflow-hidden p-3 md:p-4 gap-3 md:gap-4">
 
-  <!-- Main Container -->
-  <div class="flex-1 flex overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside class="w-84 border-r border-dark-border bg-dark-sidebar/90 backdrop-blur-2xl flex flex-col justify-between p-4 hidden md:flex shrink-0 shadow-2xl transition-colors duration-300">
-      <div class="flex flex-col gap-4 overflow-hidden">
-        <!-- Logo Header -->
-        <div class="flex items-center gap-3 px-1.5 pt-1">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 via-brand-600 to-emerald-950 flex items-center justify-center shadow-lg shadow-brand-500/25 text-white font-bold border border-emerald-400/30">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-          </div>
-          <div>
-            <h1 class="text-sm font-bold text-white tracking-wide">Samsung Assistant</h1>
-            <p class="text-[11px] text-brand-400 font-mono flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
-              RAG & Multi-Agent System
-            </p>
-          </div>
+  <!-- =========================================================
+       COLUMN 1: Left Mini Navigation (Matching Leftmost Rail in Image)
+       ========================================================= -->
+  <aside class="w-56 theme-left-nav rounded-2xl border flex flex-col justify-between p-3.5 hidden lg:flex shrink-0 shadow-lg">
+    <div class="flex flex-col gap-4">
+      <!-- App Header -->
+      <div class="flex items-center gap-2.5 px-1 py-1">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-emerald-800 flex items-center justify-center text-white shadow-sm font-bold">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
         </div>
-
-        <!-- Phone Catalog Card -->
-        <div class="bg-dark-card/90 border border-dark-border rounded-2xl p-3.5 flex flex-col gap-2.5 shadow-xl transition-colors duration-300">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-brand-400 uppercase tracking-wider font-mono flex items-center gap-1.5">
-              <span>Database Models</span>
-            </span>
-            <span id="phone-count" class="text-[11px] px-2.5 py-0.5 rounded-full bg-brand-950 text-brand-300 border border-brand-500/30 font-mono font-medium">12 models</span>
-          </div>
-
-          <!-- Catalog Search Input -->
-          <div class="relative">
-            <input 
-              id="catalog-search" 
-              type="text" 
-              placeholder="Filter (e.g. S23, Ultra)..." 
-              oninput="filterCatalog(this.value)"
-              class="w-full bg-dark-bg/80 border border-dark-border focus:border-brand-500 text-xs text-gray-200 placeholder-gray-500 rounded-lg px-2.5 py-1.5 outline-none transition font-mono"
-            />
-          </div>
-
-          <!-- Catalog List with Instant Server Preload -->
-          <div id="phone-list" class="flex flex-col gap-1.5 max-h-60 overflow-y-auto pr-1">
-            <!-- Filled instantly by server-injected JS -->
-          </div>
-        </div>
-
-        <!-- System Architecture Card -->
-        <div class="bg-dark-card/60 border border-dark-border/80 rounded-xl p-3 text-xs text-gray-300 space-y-1.5 font-mono shadow-sm transition-colors duration-300">
-          <div class="flex items-center justify-between text-gray-400">
-            <span>LLM:</span>
-            <span id="llm-pill" class="text-brand-400 font-semibold flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Gemini 3.1 Flash
-            </span>
-          </div>
-          <div class="flex items-center justify-between text-gray-400">
-            <span>Multi-Agent:</span>
-            <span class="text-brand-400 font-medium">SpecRetrieval → ReviewWriter</span>
-          </div>
-          <div class="flex items-center justify-between text-gray-400">
-            <span>Grounding:</span>
-            <span class="text-emerald-400">100% Database Facts</span>
-          </div>
+        <div>
+          <h2 class="text-xs font-bold text-white tracking-tight">Samsung AI</h2>
+          <p class="text-[10px] text-brand-400 font-mono">Workspace</p>
         </div>
       </div>
 
-      <!-- Bottom User Tag -->
-      <div class="pt-3 border-t border-dark-border flex items-center justify-between text-xs text-gray-400">
-        <div class="flex items-center gap-2">
-          <div class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></div>
-          <span class="text-gray-300 font-mono text-[11px]">System Online</span>
-        </div>
-        <a href="/docs" target="_blank" class="text-xs text-brand-400 hover:text-brand-300 underline font-mono flex items-center gap-1">
-          <span>API Docs</span>
-          <span>→</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- Chat Viewport -->
-    <main class="flex-1 flex flex-col bg-dark-bg/40 backdrop-blur-sm relative overflow-hidden transition-colors duration-300">
-
-      <!-- Top Header Bar -->
-      <header class="h-14 border-b border-dark-border px-6 flex items-center justify-between bg-dark-sidebar/50 backdrop-blur-md transition-colors duration-300">
-        <div class="flex items-center gap-3">
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-brand-950 text-brand-400 border border-brand-800/80 font-mono tracking-wider">WORKSPACE</span>
-          <span class="text-xs text-gray-400 hidden sm:inline font-mono">Real-time GSMArena database RAG • No hallucination</span>
-        </div>
-
-        <!-- Controls: Theme Toggle & Reset -->
-        <div class="flex items-center gap-4">
-          <!-- Uiverse.io Theme Switch (Day / Night Mode) -->
-          <div class="flex items-center gap-2" title="Toggle Day / Night Mode">
-            <span class="text-[10px] text-gray-400 font-mono hidden md:inline">Theme</span>
-            <label class="switch" aria-label="Toggle theme">
-              <input id="theme-checkbox" type="checkbox" onchange="toggleTheme(this.checked)" />
-              <span class="slider">
-                <div class="star star_1"></div>
-                <div class="star star_2"></div>
-                <div class="star star_3"></div>
-                <svg viewBox="0 0 16 16" class="cloud_1 cloud">
-                  <path
-                    transform="matrix(.77976 0 0 .78395-299.99-418.63)"
-                    fill="#fff"
-                    d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
-                  ></path>
-                </svg>
-              </span>
-            </label>
+      <!-- Navigation Section -->
+      <div class="space-y-1">
+        <span class="text-[10px] uppercase font-mono font-bold text-gray-500 tracking-wider px-2">Workspaces</span>
+        <button onclick="filterCatalog('')" class="w-full flex items-center justify-between text-xs font-medium px-2.5 py-1.5 rounded-lg bg-brand-500/15 text-brand-400 border border-brand-500/30">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span>All Flagships</span>
           </div>
+          <span class="text-[10px] font-mono" id="nav-count">12</span>
+        </button>
 
-          <button onclick="clearChat()" class="interactive-btn text-xs px-3 py-1.5 rounded-lg border border-dark-border text-gray-400 hover:text-white hover:bg-dark-card transition flex items-center gap-1">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            <span>Reset Chat</span>
+        <button onclick="filterCatalog('Ultra')" class="w-full flex items-center justify-between text-xs font-medium px-2.5 py-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-black/10 transition">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <span>Ultra Tier</span>
+          </div>
+          <span class="text-[10px] font-mono">4</span>
+        </button>
+
+        <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="w-full flex items-center justify-between text-xs font-medium px-2.5 py-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-black/10 transition">
+          <div class="flex items-center gap-2">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Best Battery</span>
+          </div>
+          <span class="text-[10px] font-mono">Rank</span>
+        </button>
+      </div>
+
+      <!-- Architecture Stats -->
+      <div class="space-y-1.5 pt-3 border-t border-dark-border/60 text-[11px] font-mono">
+        <div class="flex items-center justify-between text-gray-400">
+          <span>Backend:</span>
+          <span class="text-brand-400 font-semibold" id="llm-pill">Gemini</span>
+        </div>
+        <div class="flex items-center justify-between text-gray-400">
+          <span>Multi-Agent:</span>
+          <span class="text-brand-400">2-Agent</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Links -->
+    <div class="pt-3 border-t border-dark-border/60 flex items-center justify-between text-xs text-gray-400 font-mono">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+        <span class="text-[11px] text-gray-300">Live</span>
+      </div>
+      <a href="/docs" target="_blank" class="text-[11px] text-brand-400 hover:underline">API Docs →</a>
+    </div>
+  </aside>
+
+  <!-- =========================================================
+       COLUMN 2: Middle Catalog Column (Matching "Ideas" in Image)
+       ========================================================= -->
+  <section class="w-80 md:w-96 theme-mid-column rounded-2xl border flex flex-col p-4 shrink-0 shadow-lg overflow-hidden">
+    <!-- Header with Badges (Matching "Marketing Ideas 6 +" in Image) -->
+    <div class="flex items-center justify-between pb-3 border-b border-dark-border/60">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full border border-brand-400 flex items-center justify-center">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+        </span>
+        <h2 class="text-sm font-bold text-white tracking-tight">Catalog Models</h2>
+        <span class="text-xs font-mono text-gray-400" id="card-count-badge">12</span>
+      </div>
+      <span class="text-[11px] px-2 py-0.5 rounded-full theme-chip font-mono font-medium">GSMArena DB</span>
+    </div>
+
+    <!-- Search Input -->
+    <div class="pt-3 pb-2">
+      <input 
+        id="catalog-search"
+        type="text" 
+        placeholder="Filter models (e.g. S24, Ultra)..." 
+        oninput="filterCatalog(this.value)"
+        class="w-full theme-input-wrap text-xs rounded-xl px-3 py-2 outline-none font-mono transition"
+      />
+    </div>
+
+    <!-- Card Stack (Matching the White/Dark Card stack in Image) -->
+    <div id="phone-cards-container" class="flex-1 overflow-y-auto pr-1 space-y-2.5 pt-1">
+      <!-- Injected immediately by JavaScript -->
+    </div>
+  </section>
+
+  <!-- =========================================================
+       COLUMN 3: Right Dedicated Chat Workspace (Matching Right Panel in Image)
+       ========================================================= -->
+  <main class="flex-1 theme-right-chat rounded-2xl border flex flex-col overflow-hidden shadow-2xl relative">
+
+    <!-- Top Workspace Header (Matching "Clear Chat" and Header in Image) -->
+    <header class="h-14 border-b border-dark-border/60 px-5 flex items-center justify-between theme-header">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></span>
+        <h1 class="text-xs font-bold text-white tracking-wide">Query & Multi-Agent Assistant</h1>
+        <span class="text-[11px] text-gray-400 font-mono hidden md:inline">• Grounded RAG</span>
+      </div>
+
+      <!-- Controls: Uiverse Theme Switch + Clear Chat -->
+      <div class="flex items-center gap-4">
+        <!-- Uiverse.io Theme Switch (Day / Night Mode) -->
+        <label class="switch" title="Toggle Day / Night Mode">
+          <input id="theme-checkbox" type="checkbox" onchange="toggleTheme(this.checked)" />
+          <span class="slider">
+            <div class="star star_1"></div>
+            <div class="star star_2"></div>
+            <div class="star star_3"></div>
+            <svg viewBox="0 0 16 16" class="cloud_1 cloud">
+              <path transform="matrix(.77976 0 0 .78395-299.99-418.63)" fill="#fff" d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"></path>
+            </svg>
+          </span>
+        </label>
+
+        <!-- Clear Chat Button (From Image) -->
+        <button onclick="clearChat()" class="text-xs px-2.5 py-1.5 rounded-lg border border-dark-border/80 text-gray-400 hover:text-white transition flex items-center gap-1 font-mono">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          <span>Clear Chat</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Chat Messages Viewport (Matching Avatars & Formatting in Image) -->
+    <div id="chat-messages" class="flex-1 overflow-y-auto px-4 md:px-6 py-6 space-y-6">
+
+      <!-- Initial Welcome State (Shown when chat is empty) -->
+      <div id="welcome-hero" class="h-full flex flex-col items-center justify-center text-center max-w-lg mx-auto py-8 space-y-5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-emerald-800 flex items-center justify-center text-white shadow-xl shadow-brand-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+
+        <h2 class="text-2xl font-bold text-white tracking-tight">Ask anything about Samsung phones.</h2>
+        <p class="text-xs text-gray-400 leading-relaxed">
+          Select any model from the middle column to inspect specifications, compare performance, or run the multi-agent review pipeline.
+        </p>
+
+        <!-- Quick Action Prompt Chips (Matching Tag Style in Image) -->
+        <div class="flex flex-wrap gap-2 justify-center pt-2">
+          <button onclick="askPreset('What are the camera specs of the Samsung Galaxy S23?')" class="text-xs px-3 py-1.5 rounded-full theme-chip hover:border-brand-400 transition font-mono">
+            📷 Camera specs of S23
+          </button>
+          <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="text-xs px-3 py-1.5 rounded-full theme-chip hover:border-brand-400 transition font-mono">
+            🔋 Best battery life
+          </button>
+          <button onclick="askPreset('How does the Galaxy S23 compare to the S22 in terms of performance?')" class="text-xs px-3 py-1.5 rounded-full theme-chip hover:border-brand-400 transition font-mono">
+            ⚖️ Compare S23 vs S22
+          </button>
+          <button onclick="askPreset('Review Samsung Galaxy S23 Ultra')" class="text-xs px-3 py-1.5 rounded-full bg-brand-500 text-white font-semibold hover:bg-brand-400 transition shadow-md shadow-brand-500/20 font-mono">
+            ✨ Multi-Agent Review: S23 Ultra
           </button>
         </div>
-      </header>
-
-      <!-- Message History Container -->
-      <div id="chat-messages" class="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
-
-        <!-- Welcome Hero (shown when chat is empty) -->
-        <div id="welcome-hero" class="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto py-10 space-y-6">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-950/90 border border-brand-500/40 text-brand-400 text-xs font-mono tracking-widest uppercase shadow-lg shadow-brand-500/10">
-            <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            EVIDENCE, NOT GUESSWORK
-          </div>
-
-          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            Ask about Samsung phones.<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200">Get answers you can trace.</span>
-          </h2>
-
-          <p class="text-sm text-gray-300 max-w-lg leading-relaxed">
-            Query camera specs, battery capacities, compare models side-by-side, or run our collaborative multi-agent review pipeline.
-          </p>
-
-          <!-- Prompt Starter Cards (60-30-10 secondary structures) -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full text-left pt-2">
-            <button onclick="askPreset('What are the camera specs of the Samsung Galaxy S23?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-brand-400 font-mono font-medium">01 • Camera</span>
-                <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
-              </div>
-              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">What are the camera specs of the Samsung Galaxy S23?</p>
-              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
-                <span>Ask spec sheet</span>
-                <span class="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-            </button>
-
-            <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-brand-400 font-mono font-medium">02 • Ranking</span>
-                <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
-              </div>
-              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">Which Samsung phone has the best battery life?</p>
-              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
-                <span>Compute rank</span>
-                <span class="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-            </button>
-
-            <button onclick="askPreset('How does the Galaxy S23 compare to the S22 in terms of performance?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-brand-400 font-mono font-medium">03 • Compare</span>
-                <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
-              </div>
-              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">How does the Galaxy S23 compare to the S22 in performance?</p>
-              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
-                <span>Side-by-side</span>
-                <span class="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-            </button>
-          </div>
-
-          <!-- Multi-Agent Pill Button (10% High-Impact Accent) -->
-          <div class="pt-2">
-            <button onclick="askPreset('Review Samsung Galaxy S23 Ultra')" class="interactive-btn inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-950 via-emerald-950 to-brand-950 border border-brand-500/40 text-brand-300 text-xs font-semibold hover:border-brand-400 hover:text-white transition shadow-xl shadow-brand-500/10">
-              <div class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></div>
-              <span>Run Multi-Agent Review on <strong>Galaxy S23 Ultra</strong> (SpecRetrieval → ReviewWriter)</span>
-            </button>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Input Bar Container -->
-      <div class="p-4 sm:p-6 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent">
-        <div class="max-w-3xl mx-auto">
-          <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-center">
-            <div id="input-wrapper" class="w-full relative rounded-2xl border border-dark-border transition duration-200 bg-dark-card shadow-2xl">
-              <input 
-                id="user-input" 
-                type="text" 
-                placeholder="Ask a question about Samsung phones (e.g. specs, camera, battery, compare)..." 
-                class="w-full bg-transparent text-sm text-gray-100 placeholder-gray-500 rounded-2xl py-3.5 pl-5 pr-14 outline-none transition"
-                autocomplete="off"
-              />
-              <button 
-                id="send-btn" 
-                type="submit" 
-                class="interactive-btn absolute right-2.5 top-2 w-9 h-9 rounded-xl bg-brand-500/25 text-brand-400 font-bold flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <svg id="send-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-              </button>
-            </div>
-          </form>
+    </div>
 
-          <!-- Footer Credit -->
-          <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-400 font-mono px-2">
-            <span class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
-              Context: 12 flagship models in structured DB
-            </span>
-            <span>Crafted by <strong>Miraj Hossain</strong> • Python Software Intern Assignment</span>
-          </div>
+    <!-- Bottom Input Container (Matching "Send a message..." Input Bar in Image) -->
+    <div class="p-3 md:p-4 border-t border-dark-border/60">
+      <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-center max-w-3xl mx-auto">
+        <div id="input-wrapper" class="w-full relative rounded-2xl theme-input-wrap transition duration-200 shadow-md">
+          <input 
+            id="user-input" 
+            type="text" 
+            placeholder="Send a message about Samsung phones (specs, camera, battery, compare)..." 
+            class="w-full bg-transparent text-xs sm:text-sm rounded-2xl py-3 pl-4 pr-12 outline-none"
+            autocomplete="off"
+          />
+          <button 
+            id="send-btn" 
+            type="submit" 
+            class="interactive-btn absolute right-2 top-1.5 w-8 h-8 rounded-xl bg-brand-500 text-white font-bold flex items-center justify-center transition shadow-sm disabled:opacity-40"
+          >
+            <svg id="send-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+          </button>
         </div>
-      </div>
+      </form>
 
-    </main>
-  </div>
+      <!-- Bottom Status Pill (Matching "Strut is typing..." in Image) -->
+      <div class="mt-2 flex items-center justify-between text-[11px] text-gray-500 font-mono px-2">
+        <span id="typing-status" class="flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+          Ready for queries
+        </span>
+        <span>Crafted by <strong>Miraj Hossain</strong></span>
+      </div>
+    </div>
+
+  </main>
 
   <script>
-    // Server-injected phones data (renders instantly with 0ms network wait)
+    // Server-injected phones data (0ms instant render)
     const SERVER_PHONES = __SERVER_PHONES_JSON__;
 
     const chatMessages = document.getElementById('chat-messages');
@@ -605,9 +497,10 @@
     const sendBtn = document.getElementById('send-btn');
     const sendIcon = document.getElementById('send-icon');
     const themeCheckbox = document.getElementById('theme-checkbox');
+    const typingStatus = document.getElementById('typing-status');
     let allPhonesCache = [];
 
-    // Theme toggler (UI 60-30-10 rule)
+    // Theme toggler (Day = White Workspace / Night = Dark Green-Black)
     function toggleTheme(isDay) {
       if (isDay) {
         document.body.classList.add('light-theme');
@@ -618,7 +511,6 @@
       }
     }
 
-    // Initialize saved theme
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'day') {
       themeCheckbox.checked = true;
@@ -628,45 +520,54 @@
       document.body.classList.remove('light-theme');
     }
 
-    // Render phone list into the sidebar
-    function renderPhoneList(phones) {
+    // Render Middle Column Phone Cards (Matching the Card Stack in Image)
+    function renderPhoneCards(phones) {
       allPhonesCache = phones || [];
-      const phoneList = document.getElementById('phone-list');
-      if (!phoneList) return;
+      const container = document.getElementById('phone-cards-container');
+      if (!container) return;
 
       if (!phones || !phones.length) {
-        phoneList.innerHTML = '<div class="text-xs text-gray-500 py-3 text-center">No models in database.</div>';
+        container.innerHTML = '<div class="text-xs text-gray-400 py-6 text-center font-mono">No models found</div>';
         return;
       }
 
-      document.getElementById('phone-count').textContent = `${phones.length} models`;
+      document.getElementById('card-count-badge').textContent = `${phones.length}`;
+      document.getElementById('nav-count').textContent = `${phones.length}`;
 
-      phoneList.innerHTML = phones.map(p => {
-        const cam = p.main_camera_mp ? `${p.main_camera_mp}MP` : '';
-        const bat = p.battery_mah ? `${p.battery_mah}mAh` : '';
-        const disp = p.display_size_in ? `${p.display_size_in}"` : '';
-        const badges = [cam, bat, disp].filter(Boolean).join(' • ');
+      container.innerHTML = phones.map(p => {
+        const cam = p.main_camera_mp ? `${p.main_camera_mp} MP` : null;
+        const bat = p.battery_mah ? `${p.battery_mah} mAh` : null;
+        const disp = p.display_size_in ? `${p.display_size_in}"` : null;
+        const ram = p.ram_gb_max ? `${p.ram_gb_max}GB RAM` : null;
 
         return `
-          <div class="glass-phone-item p-2 rounded-xl bg-dark-bg/70 border border-dark-border text-left group flex flex-col gap-1 cursor-pointer" onclick="askPreset('Tell me about the ${p.name}')">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-gray-200 group-hover:text-brand-400 truncate">${p.name}</span>
+          <div class="interactive-card theme-card rounded-xl p-3 cursor-pointer group" onclick="askPreset('Tell me about the ${p.name}')">
+            <div class="flex items-start justify-between gap-1 mb-1.5">
+              <h3 class="text-xs font-bold group-hover:text-brand-500 transition line-clamp-1">${p.name}</h3>
               <span class="text-[10px] text-brand-400 font-mono group-hover:translate-x-0.5 transition-transform">→</span>
             </div>
-            ${badges ? `<span class="text-[10px] text-gray-400 font-mono">${badges}</span>` : ''}
+            <p class="text-[11px] text-gray-400 leading-snug mb-2 font-mono line-clamp-2">
+              ${p.chipset || 'Samsung flagship architecture with high-refresh display'}
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              ${cam ? `<span class="text-[10px] px-2 py-0.5 rounded-md theme-chip font-mono">${cam}</span>` : ''}
+              ${bat ? `<span class="text-[10px] px-2 py-0.5 rounded-md theme-chip font-mono">${bat}</span>` : ''}
+              ${disp ? `<span class="text-[10px] px-2 py-0.5 rounded-md theme-chip font-mono">${disp}</span>` : ''}
+              ${ram ? `<span class="text-[10px] px-2 py-0.5 rounded-md theme-chip font-mono">${ram}</span>` : ''}
+            </div>
           </div>
         `;
       }).join('');
     }
 
     function filterCatalog(term) {
-      const q = term.toLowerCase().trim();
+      const q = (term || '').toLowerCase().trim();
       if (!q) {
-        renderPhoneList(allPhonesCache);
+        renderPhoneCards(allPhonesCache);
         return;
       }
       const filtered = allPhonesCache.filter(p => p.name.toLowerCase().includes(q));
-      renderPhoneList(filtered);
+      renderPhoneCards(filtered);
     }
 
     // Input typing reactive animations
@@ -674,35 +575,26 @@
       const val = userInput.value.trim();
       if (val.length > 0) {
         inputWrapper.classList.add('input-aura-active');
-        sendBtn.classList.remove('bg-brand-500/25', 'text-brand-400');
-        sendBtn.classList.add('bg-brand-500', 'text-dark-bg', 'shadow-md', 'shadow-brand-500/30', 'scale-105');
+        sendBtn.classList.add('scale-105');
         sendIcon.classList.add('rotate-45');
+        typingStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span> Drafting query...';
       } else {
         inputWrapper.classList.remove('input-aura-active');
-        sendBtn.classList.add('bg-brand-500/25', 'text-brand-400');
-        sendBtn.classList.remove('bg-brand-500', 'text-dark-bg', 'shadow-md', 'shadow-brand-500/30', 'scale-105');
+        sendBtn.classList.remove('scale-105');
         sendIcon.classList.remove('rotate-45');
+        typingStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Ready for queries';
       }
     });
 
-    userInput.addEventListener('focus', () => {
-      inputWrapper.classList.add('input-aura-active');
-    });
+    userInput.addEventListener('focus', () => { inputWrapper.classList.add('input-aura-active'); });
+    userInput.addEventListener('blur', () => { if (!userInput.value.trim()) inputWrapper.classList.remove('input-aura-active'); });
 
-    userInput.addEventListener('blur', () => {
-      if (!userInput.value.trim()) {
-        inputWrapper.classList.remove('input-aura-active');
-      }
-    });
-
-    // Initialize: immediate render of pre-injected phones + fetch health
+    // Initialize: instant render + background fetch
     async function initApp() {
-      // 1. Immediately render preloaded phones with 0 latency
       if (Array.isArray(SERVER_PHONES) && SERVER_PHONES.length > 0) {
-        renderPhoneList(SERVER_PHONES);
+        renderPhoneCards(SERVER_PHONES);
       }
 
-      // 2. Fetch live data as confirmation
       try {
         const [healthRes, phonesRes] = await Promise.all([
           fetch('/health'),
@@ -715,7 +607,7 @@
           document.getElementById('llm-pill').textContent = health.llm_backend.toUpperCase();
         }
         if (Array.isArray(phones) && phones.length > 0) {
-          renderPhoneList(phones);
+          renderPhoneCards(phones);
         }
       } catch (err) {
         console.warn('Initial data load warning:', err);
@@ -747,6 +639,7 @@
 
       const loadingId = appendMultiAgentLoadingBubble();
       sendBtn.disabled = true;
+      typingStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-brand-400 wave-dot"></span> Agents collaborating...';
 
       try {
         const isReview = query.toLowerCase().startsWith('review ') || query.toLowerCase().startsWith('generate review');
@@ -779,15 +672,21 @@
         sendBtn.disabled = false;
         userInput.focus();
         chatMessages.scrollTop = chatMessages.scrollHeight;
+        typingStatus.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Ready for queries';
       }
     }
 
+    // Matching "You" Avatar in Image
     function appendUserMessage(text) {
       const msg = document.createElement('div');
-      msg.className = 'flex justify-end';
+      msg.className = 'flex items-start gap-3';
       msg.innerHTML = `
-        <div class="max-w-xl bg-gradient-to-r from-brand-600 via-emerald-600 to-teal-700 text-white px-4 py-3 rounded-2xl rounded-tr-none text-sm shadow-xl font-medium">
-          ${escapeHtml(text)}
+        <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+          You
+        </div>
+        <div class="flex-1 space-y-1">
+          <div class="text-xs font-bold text-gray-300 font-mono">You</div>
+          <p class="text-xs sm:text-sm text-gray-200 leading-relaxed">${escapeHtml(text)}</p>
         </div>
       `;
       chatMessages.appendChild(msg);
@@ -800,18 +699,19 @@
       msg.id = id;
       msg.className = 'flex items-start gap-3';
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/40 flex items-center justify-center text-brand-400 shrink-0 shadow-sm">
-          <svg class="w-4 h-4 animate-spin text-brand-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        <div class="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+          AI
         </div>
-        <div class="bg-dark-card border border-dark-border px-4 py-3 rounded-2xl rounded-tl-none shadow-xl flex items-center gap-3">
-          <div class="flex items-center gap-1">
-            <span class="w-2 h-2 rounded-full bg-brand-400 wave-dot"></span>
-            <span class="w-2 h-2 rounded-full bg-brand-400 wave-dot"></span>
-            <span class="w-2 h-2 rounded-full bg-brand-400 wave-dot"></span>
+        <div class="flex-1 space-y-1.5">
+          <div class="text-xs font-bold text-brand-400 font-mono">Samsung Assistant</div>
+          <div class="flex items-center gap-2 text-xs text-gray-400 font-mono py-1">
+            <div class="flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 wave-dot"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 wave-dot"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 wave-dot"></span>
+            </div>
+            <span id="${id}-text">SpecRetrievalAgent fetching specifications...</span>
           </div>
-          <span id="${id}-text" class="text-xs text-brand-400 font-mono">
-            SpecRetrievalAgent: Querying specifications from database...
-          </span>
         </div>
       `;
       chatMessages.appendChild(msg);
@@ -819,9 +719,7 @@
 
       setTimeout(() => {
         const txt = document.getElementById(`${id}-text`);
-        if (txt) {
-          txt.textContent = 'ReviewWriterAgent: Synthesizing grounded specifications...';
-        }
+        if (txt) txt.textContent = 'ReviewWriterAgent synthesizing grounded response...';
       }, 1400);
 
       return id;
@@ -849,22 +747,30 @@
       container.innerHTML = marked.parse(markdownText);
     }
 
+    // Matching Assistant formatting in Image
     async function renderChatResponse(data) {
       const msg = document.createElement('div');
-      msg.className = 'flex items-start gap-3 max-w-2xl';
+      msg.className = 'flex items-start gap-3';
       
       const intentLabel = data.intent ? data.intent.toUpperCase() : 'ANSWER';
 
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/40 flex items-center justify-center text-brand-400 shrink-0 shadow-md">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        <div class="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-sm">
+          AI
         </div>
-        <div class="bg-dark-card border border-dark-border border-l-4 border-l-brand-400 px-5 py-4 rounded-2xl rounded-tl-none shadow-xl space-y-2.5 flex-1">
-          <div class="flex items-center gap-2 font-mono text-[11px]">
-            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-bold">${intentLabel}</span>
-            ${data.llm_used ? '<span class="text-emerald-500 flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>Gemini Grounded</span>' : '<span class="text-gray-400">● Database Formatted</span>'}
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-brand-400 font-mono">Samsung Assistant</span>
+              <span class="text-[10px] px-2 py-0.5 rounded theme-chip font-mono font-bold">${intentLabel}</span>
+            </div>
+            <button onclick="copyToClipboard(this)" class="text-[10px] px-2 py-0.5 rounded border border-dark-border/80 text-gray-400 hover:text-brand-400 font-mono transition flex items-center gap-1">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Copy</span>
+            </button>
           </div>
-          <div id="target-chat-body-${Date.now()}" class="prose-dark text-sm leading-relaxed"></div>
+
+          <div id="target-chat-body-${Date.now()}" class="prose-content text-xs sm:text-sm leading-relaxed"></div>
         </div>
       `;
       chatMessages.appendChild(msg);
@@ -876,13 +782,13 @@
 
     async function renderReviewResponse(data, target) {
       const msg = document.createElement('div');
-      msg.className = 'flex items-start gap-3 max-w-2xl';
+      msg.className = 'flex items-start gap-3';
 
       if (!data.found) {
         msg.innerHTML = `
-          <div class="w-8 h-8 rounded-lg bg-red-950/60 border border-red-500/30 flex items-center justify-center text-red-400 shrink-0">!</div>
-          <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none text-sm text-red-400">
-            No phone found in database matching "${escapeHtml(target)}".
+          <div class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold shrink-0">!</div>
+          <div class="flex-1 text-xs text-red-400 font-mono py-1">
+            No phone found matching "${escapeHtml(target)}".
           </div>
         `;
         chatMessages.appendChild(msg);
@@ -890,21 +796,27 @@
       }
 
       const tracePills = (data.trace || []).map(t => `
-        <span class="px-2.5 py-1 rounded-lg bg-dark-bg text-brand-400 border border-dark-border font-mono text-[10px] flex items-center gap-1.5 shadow-sm">
+        <span class="px-2 py-0.5 rounded theme-chip font-mono text-[10px] flex items-center gap-1">
           <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span> ${escapeHtml(t.agent)}
         </span>
       `).join('');
 
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-emerald-950 border border-brand-400/40 flex items-center justify-center text-white shrink-0 shadow-lg">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-brand-500 to-amber-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-md">
+          CR
         </div>
-        <div class="bg-dark-card border border-dark-border border-l-4 border-l-brand-400 px-5 py-4 rounded-2xl rounded-tl-none shadow-xl space-y-3 flex-1">
-          <div class="flex flex-wrap items-center gap-2 pb-2.5 border-b border-dark-border">
-            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-mono text-[11px] font-bold">MULTI-AGENT REVIEW</span>
-            <div class="flex items-center gap-1.5">${tracePills}</div>
+        <div class="flex-1 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b border-dark-border/60">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-brand-400 font-mono">CrewAI / Multi-Agent Review</span>
+              <div class="flex items-center gap-1">${tracePills}</div>
+            </div>
+            <button onclick="copyToClipboard(this)" class="text-[10px] px-2 py-0.5 rounded border border-dark-border/80 text-gray-400 hover:text-brand-400 font-mono transition flex items-center gap-1">
+              <span>Copy</span>
+            </button>
           </div>
-          <div id="target-review-body-${Date.now()}" class="prose-dark text-sm leading-relaxed"></div>
+
+          <div id="target-review-body-${Date.now()}" class="prose-content text-xs sm:text-sm leading-relaxed"></div>
         </div>
       `;
       chatMessages.appendChild(msg);
@@ -914,14 +826,22 @@
       await streamTypewriter(bodyEl, data.review || '');
     }
 
+    function copyToClipboard(btn) {
+      const container = btn.closest('.flex-1').querySelector('.prose-content');
+      if (container) {
+        navigator.clipboard.writeText(container.innerText);
+        const original = btn.innerHTML;
+        btn.innerHTML = '<span>Copied!</span>';
+        setTimeout(() => { btn.innerHTML = original; }, 1500);
+      }
+    }
+
     function appendErrorMessage(text) {
       const msg = document.createElement('div');
-      msg.className = 'flex items-start gap-3 max-w-xl';
+      msg.className = 'flex items-start gap-3';
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-red-950/60 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">✕</div>
-        <div class="bg-dark-card border border-red-500/30 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-red-400">
-          ${escapeHtml(text)}
-        </div>
+        <div class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</div>
+        <div class="text-xs text-red-400 font-mono py-1">${escapeHtml(text)}</div>
       `;
       chatMessages.appendChild(msg);
     }
