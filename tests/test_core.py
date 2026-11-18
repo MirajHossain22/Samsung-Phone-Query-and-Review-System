@@ -204,6 +204,7 @@ def test_api_endpoints():
     for rec in build_records():
         r.upsert_phone(rec)
     with TestClient(create_app(db)) as c:
+        assert c.get("/").status_code == 200
         assert c.get("/health").json()["phones_in_db"] == 12
         assert "6.1 inches" in c.post("/chat", json={"question": "screen size of the Galaxy S22?"}).json()["answer"]
         assert c.post("/review", json={"phone": "S23 Ultra"}).json()["found"] is True

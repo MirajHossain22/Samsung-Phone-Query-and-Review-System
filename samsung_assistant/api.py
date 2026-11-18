@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from .agents import Orchestrator
@@ -44,6 +46,13 @@ def create_app(db: Database | None = None) -> FastAPI:
             state["db"].close()
 
     app = FastAPI(title="Samsung Phone Query & Review System", version="1.0.0", lifespan=lifespan)
+
+    @app.get("/", response_class=HTMLResponse)
+    def index():
+        static_index = Path(__file__).parent / "static" / "index.html"
+        if static_index.exists():
+            return HTMLResponse(content=static_index.read_text(encoding="utf-8"))
+        return HTMLResponse(content="<h1>Samsung Phone Assistant API</h1><p>Visit <a href='/docs'>/docs</a></p>")
 
     @app.get("/health")
     def health():

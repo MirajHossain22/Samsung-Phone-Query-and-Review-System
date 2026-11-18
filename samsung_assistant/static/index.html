@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samsung Phone Assistant | Intelligent RAG & Multi-Agent Reviews</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#064e3b',
+              900: '#063f31',
+              950: '#022c22',
+            },
+            dark: {
+              bg: '#080d0b',
+              sidebar: '#0c1310',
+              card: '#101a15',
+              cardHover: '#14211b',
+              border: 'rgba(16, 185, 129, 0.15)',
+              borderStrong: 'rgba(16, 185, 129, 0.35)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #080d0b;
+      color: #e5e7eb;
+      background-image: 
+        linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.2); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.4); }
+    .prose-dark { color: #d1d5db; }
+    .prose-dark strong { color: #f9fafb; font-weight: 600; }
+    .prose-dark ul { list-style-type: disc; padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+    .prose-dark li { margin-bottom: 0.25rem; }
+    .prose-dark h1, .prose-dark h2, .prose-dark h3 { color: #34d399; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
+    .prose-dark p { margin-bottom: 0.5rem; line-height: 1.6; }
+    .prose-dark code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: rgba(16, 185, 129, 0.12); padding: 0.15rem 0.35rem; border-radius: 0.25rem; }
+  </style>
+</head>
+<body class="h-screen flex flex-col font-sans overflow-hidden">
+
+  <!-- Main Container -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-80 border-r border-dark-border bg-dark-sidebar/90 backdrop-blur-md flex flex-col justify-between p-4 hidden md:flex">
+      <div class="flex flex-col gap-5 overflow-hidden">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 px-2">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <h1 class="text-sm font-semibold text-white tracking-wide">Samsung Assistant</h1>
+            <p class="text-xs text-brand-400 font-mono">RAG & Multi-Agent Intelligence</p>
+          </div>
+        </div>
+
+        <!-- Phone Catalog Card -->
+        <div class="bg-dark-card border border-dark-border rounded-2xl p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-brand-400 uppercase tracking-wider font-mono">Database Catalog</span>
+            <span id="phone-count" class="text-xs px-2 py-0.5 rounded-full bg-brand-900/60 text-brand-400 border border-brand-500/30 font-mono">12 phones</span>
+          </div>
+          <p class="text-xs text-gray-400">Click a phone to ask about its specifications or generate a review.</p>
+          <div id="phone-list" class="flex flex-col gap-1.5 max-h-56 overflow-y-auto pr-1">
+            <div class="text-xs text-gray-500 py-2 text-center">Loading phone catalog...</div>
+          </div>
+        </div>
+
+        <!-- System Architecture Pill -->
+        <div class="bg-dark-card/60 border border-dark-border/80 rounded-xl p-3 text-xs text-gray-400 space-y-1.5 font-mono">
+          <div class="flex items-center justify-between text-gray-300">
+            <span>LLM Backend:</span>
+            <span id="llm-pill" class="text-brand-400 font-semibold">Gemini 3.1 Flash</span>
+          </div>
+          <div class="flex items-center justify-between text-gray-300">
+            <span>Multi-Agent:</span>
+            <span class="text-brand-400">2-Agent Crew</span>
+          </div>
+          <div class="flex items-center justify-between text-gray-300">
+            <span>Database:</span>
+            <span class="text-brand-400">SQLite / PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom User Tag -->
+      <div class="pt-4 border-t border-dark-border flex items-center justify-between text-xs text-gray-400">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></div>
+          <span class="text-gray-300 font-mono">System Ready</span>
+        </div>
+        <a href="/docs" target="_blank" class="text-xs text-brand-400 hover:text-brand-300 underline font-mono">API Docs →</a>
+      </div>
+    </aside>
+
+    <!-- Chat Viewport -->
+    <main class="flex-1 flex flex-col bg-dark-bg/60 backdrop-blur-sm relative overflow-hidden">
+
+      <!-- Top Bar -->
+      <header class="h-14 border-b border-dark-border px-6 flex items-center justify-between bg-dark-sidebar/40">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-brand-950 text-brand-400 border border-brand-800/80 font-mono">NEW CONVERSATION</span>
+          <span class="text-xs text-gray-400 hidden sm:inline">Grounding: 100% database facts • No hallucinations</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearChat()" class="text-xs px-3 py-1.5 rounded-lg border border-dark-border text-gray-400 hover:text-white hover:bg-dark-card transition">Clear</button>
+        </div>
+      </header>
+
+      <!-- Message History Container -->
+      <div id="chat-messages" class="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
+
+        <!-- Welcome Hero (shown when empty) -->
+        <div id="welcome-hero" class="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto py-10 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-950/80 border border-brand-500/30 text-brand-400 text-xs font-mono tracking-widest uppercase shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            EVIDENCE, NOT GUESSWORK
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+            Ask about Samsung phones.<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-emerald-200">Get answers you can trace.</span>
+          </h2>
+
+          <p class="text-sm text-gray-400 max-w-lg leading-relaxed">
+            Query technical specifications, compare models side-by-side, or let our multi-agent crew generate structured reviews with pros and cons.
+          </p>
+
+          <!-- Prompt Starter Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full text-left pt-2">
+            <button onclick="askPreset('What are the camera specs of the Samsung Galaxy S23?')" class="group p-4 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500/50 hover:bg-dark-cardHover transition flex flex-col justify-between h-32 text-left">
+              <span class="text-xs text-brand-400 font-mono">01 • Camera</span>
+              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3">What are the camera specs of the Samsung Galaxy S23?</p>
+              <span class="text-[10px] text-gray-500 font-mono">Ask question →</span>
+            </button>
+
+            <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="group p-4 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500/50 hover:bg-dark-cardHover transition flex flex-col justify-between h-32 text-left">
+              <span class="text-xs text-brand-400 font-mono">02 • Ranking</span>
+              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3">Which Samsung phone has the best battery life?</p>
+              <span class="text-[10px] text-gray-500 font-mono">Compute rankings →</span>
+            </button>
+
+            <button onclick="askPreset('How does the Galaxy S23 compare to the S22 in terms of performance?')" class="group p-4 rounded-xl bg-dark-card border border-dark-border hover:border-brand-500/50 hover:bg-dark-cardHover transition flex flex-col justify-between h-32 text-left">
+              <span class="text-xs text-brand-400 font-mono">03 • Compare</span>
+              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3">How does the Galaxy S23 compare to the S22 in performance?</p>
+              <span class="text-[10px] text-gray-500 font-mono">Side-by-side →</span>
+            </button>
+          </div>
+
+          <!-- Multi-Agent Pill Button -->
+          <div class="pt-2">
+            <button onclick="askPreset('Review Samsung Galaxy S23 Ultra')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-950 border border-brand-500/40 text-brand-300 text-xs font-medium hover:bg-brand-900/60 hover:text-white transition">
+              <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Run Multi-Agent Review on <strong>Galaxy S23 Ultra</strong></span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input Bar Container -->
+      <div class="p-4 sm:p-6 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent">
+        <div class="max-w-3xl mx-auto">
+          <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-center">
+            <input 
+              id="user-input" 
+              type="text" 
+              placeholder="Ask a question about Samsung phones (e.g. specs, camera, battery, compare)..." 
+              class="w-full bg-dark-card border border-dark-border focus:border-brand-500 focus:ring-1 focus:ring-brand-500/40 text-sm text-gray-100 placeholder-gray-500 rounded-2xl py-3.5 pl-5 pr-14 outline-none transition shadow-lg"
+              autocomplete="off"
+            />
+            <button 
+              id="send-btn" 
+              type="submit" 
+              class="absolute right-2.5 w-9 h-9 rounded-xl bg-brand-500 hover:bg-brand-400 text-dark-bg font-bold flex items-center justify-center transition shadow-md shadow-brand-500/20 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+            </button>
+          </form>
+
+          <!-- Footer Credit -->
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-500 font-mono px-2">
+            <span>Context: 12 flagship models in structured DB</span>
+            <span>Crafted by <strong>Miraj Hossain</strong> • Python Software Intern Assignment</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const welcomeHero = document.getElementById('welcome-hero');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Fetch health and phones on load
+    async function initApp() {
+      try {
+        const [healthRes, phonesRes] = await Promise.all([
+          fetch('/health'),
+          fetch('/phones')
+        ]);
+        const health = await healthRes.json();
+        const phones = await phonesRes.json();
+
+        if (health.llm_backend) {
+          document.getElementById('llm-pill').textContent = health.llm_backend.toUpperCase();
+        }
+        if (phones && phones.length) {
+          document.getElementById('phone-count').textContent = `${phones.length} phones`;
+          const phoneList = document.getElementById('phone-list');
+          phoneList.innerHTML = phones.map(p => `
+            <button onclick="askPreset('Tell me about the ${p.name}')" class="text-left text-xs px-2.5 py-1.5 rounded-lg bg-dark-bg/60 hover:bg-dark-cardHover border border-dark-border text-gray-300 hover:text-white transition flex items-center justify-between">
+              <span class="truncate">${p.name}</span>
+              <span class="text-[10px] text-brand-400 font-mono">→</span>
+            </button>
+          `).join('');
+        }
+      } catch (err) {
+        console.warn('Initial data load warning:', err);
+      }
+    }
+
+    function askPreset(text) {
+      userInput.value = text;
+      handleSubmit();
+    }
+
+    function clearChat() {
+      chatMessages.innerHTML = '';
+      chatMessages.appendChild(welcomeHero);
+      welcomeHero.classList.remove('hidden');
+    }
+
+    async function handleSubmit(e) {
+      if (e) e.preventDefault();
+      const query = userInput.value.trim();
+      if (!query) return;
+
+      userInput.value = '';
+      welcomeHero.classList.add('hidden');
+
+      // Append user bubble
+      appendUserMessage(query);
+
+      // Append loading indicator
+      const loadingId = appendLoadingBubble();
+      sendBtn.disabled = true;
+
+      try {
+        // Route to review endpoint if user explicitly requests a review
+        const isReview = query.toLowerCase().startsWith('review ') || query.toLowerCase().startsWith('generate review');
+        let data;
+
+        if (isReview) {
+          const phoneTarget = query.replace(/^review\s+/i, '').replace(/^generate review (for\s+)?/i, '').trim();
+          const res = await fetch('/review', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ phone: phoneTarget })
+          });
+          data = await res.json();
+          removeLoadingBubble(loadingId);
+          renderReviewResponse(data, phoneTarget);
+        } else {
+          const res = await fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ question: query })
+          });
+          data = await res.json();
+          removeLoadingBubble(loadingId);
+          renderChatResponse(data);
+        }
+      } catch (err) {
+        removeLoadingBubble(loadingId);
+        appendErrorMessage('Network or server error. Please ensure the API is running.');
+      } finally {
+        sendBtn.disabled = false;
+        userInput.focus();
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    }
+
+    function appendUserMessage(text) {
+      const msg = document.createElement('div');
+      msg.className = 'flex justify-end';
+      msg.innerHTML = `
+        <div class="max-w-xl bg-brand-900/60 border border-brand-500/40 text-gray-100 px-4 py-3 rounded-2xl rounded-tr-none text-sm shadow-md">
+          ${escapeHtml(text)}
+        </div>
+      `;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendLoadingBubble() {
+      const id = 'loading-' + Date.now();
+      const msg = document.createElement('div');
+      msg.id = id;
+      msg.className = 'flex items-start gap-3';
+      msg.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-dark-card border border-dark-border flex items-center justify-center text-brand-400 shrink-0">
+          <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        </div>
+        <div class="bg-dark-card border border-dark-border px-4 py-3 rounded-2xl rounded-tl-none text-xs text-gray-400 font-mono">
+          Retrieving database context & consulting agent...
+        </div>
+      `;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return id;
+    }
+
+    function removeLoadingBubble(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function renderChatResponse(data) {
+      const msg = document.createElement('div');
+      msg.className = 'flex items-start gap-3 max-w-2xl';
+      
+      const intentLabel = data.intent ? data.intent.toUpperCase() : 'ANSWER';
+      const parsedHtml = marked.parse(data.answer || 'No answer returned.');
+
+      msg.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/30 flex items-center justify-center text-brand-400 shrink-0 shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none shadow-md space-y-2.5 flex-1">
+          <div class="flex items-center gap-2 font-mono text-[11px]">
+            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80">${intentLabel}</span>
+            ${data.llm_used ? '<span class="text-emerald-400">● Gemini Grounded</span>' : '<span class="text-gray-400">● Database Formatted</span>'}
+          </div>
+          <div class="prose-dark text-sm leading-relaxed">${parsedHtml}</div>
+        </div>
+      `;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function renderReviewResponse(data, target) {
+      const msg = document.createElement('div');
+      msg.className = 'flex items-start gap-3 max-w-2xl';
+
+      if (!data.found) {
+        msg.innerHTML = `
+          <div class="w-8 h-8 rounded-lg bg-red-950/60 border border-red-500/30 flex items-center justify-center text-red-400 shrink-0">!</div>
+          <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none text-sm text-red-400">
+            No phone found in database matching "${escapeHtml(target)}".
+          </div>
+        `;
+        chatMessages.appendChild(msg);
+        return;
+      }
+
+      const tracePills = (data.trace || []).map(t => `
+        <span class="px-2 py-0.5 rounded bg-dark-bg text-brand-400 border border-dark-border font-mono text-[10px] flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> ${escapeHtml(t.agent)}
+        </span>
+      `).join('');
+
+      const parsedReview = marked.parse(data.review || '');
+
+      msg.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-brand-950 border border-brand-500/40 flex items-center justify-center text-white shrink-0 shadow-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none shadow-md space-y-3 flex-1">
+          <div class="flex flex-wrap items-center gap-2 pb-2 border-b border-dark-border">
+            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-mono text-[11px]">MULTI-AGENT REVIEW</span>
+            <div class="flex items-center gap-1.5">${tracePills}</div>
+          </div>
+          <div class="prose-dark text-sm leading-relaxed">${parsedReview}</div>
+        </div>
+      `;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendErrorMessage(text) {
+      const msg = document.createElement('div');
+      msg.className = 'flex items-start gap-3 max-w-xl';
+      msg.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-red-950/60 border border-red-500/40 flex items-center justify-center text-red-400 shrink-0">✕</div>
+        <div class="bg-dark-card border border-red-500/30 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-red-300">
+          ${escapeHtml(text)}
+        </div>
+      `;
+      chatMessages.appendChild(msg);
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
