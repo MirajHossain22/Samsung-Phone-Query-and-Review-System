@@ -3,7 +3,7 @@
 > **🌐 Live Deployment:** [https://samsung-phone-query-and-review-system.onrender.com](https://samsung-phone-query-and-review-system.onrender.com)  
 > **📚 Live API Documentation (Swagger):** [https://samsung-phone-query-and-review-system.onrender.com/docs](https://samsung-phone-query-and-review-system.onrender.com/docs)
 
-Scrape Samsung specs from GSMArena → store them in PostgreSQL / SQLite → answer questions with a RAG chatbot (powered by Google Gemini free tier) → generate reviews with a two-agent pipeline → expose everything through a FastAPI service and interactive web UI.
+Scrape Samsung specs from GSMArena → store them in PostgreSQL / SQLite → answer questions with a database-grounded RAG chatbot → generate reviews with a two-agent pipeline → expose everything through a FastAPI service and interactive web UI. Generated answers use the open-source GPT-OSS model through Groq's OpenAI-compatible API, with a deterministic fallback when the model is unavailable.
 
 ```
 GSMArena ──scraper──▶ PostgreSQL ──▶ Retriever (entity detection + TF-IDF over spec chunks)
@@ -65,7 +65,7 @@ pytest -q
 |---|---|---|
 | Scraping | `scraper.py` | `requests` + BeautifulSoup. Walks the Samsung brand listing, parses every spec table, retries on HTTP 429 with back-off. |
 | Database | `schema.sql`, `db.py`, `repository.py` | `phones`, `specifications` (raw sheet, one row per category/key), `key_specs` (parsed numbers for ranking), `prices`. PostgreSQL, SQLite fallback. |
-| Chatbot (RAG) | `rag.py`, `chatbot.py`, `llm.py` | Detects phone names (`S23 Ultra` ≠ `S23`), retrieves the relevant spec chunks, then answers. Rankings/comparisons are computed in code from the DB; the LLM only phrases the answer. Open-source LLM via Ollama/HF, or OpenAI; works without any LLM. |
+| Chatbot (RAG) | `rag.py`, `chatbot.py`, `llm.py` | Detects phone names (`S23 Ultra` ≠ `S23`), retrieves the relevant spec chunks, then answers. Rankings/comparisons are computed in code from the DB; the LLM only phrases the answer. Tested with GPT-OSS through Groq; Ollama, Hugging Face, Gemini and OpenAI are also supported. |
 | Multi-agent | `agents.py` (default), `crew_adapter.py` (CrewAI) | Retrieval agent → review-writer agent; the API returns an execution trace. Pros/cons come from ranking the phone against the others in the DB. |
 | API | `api.py` | `POST /chat`, `POST /review`, `GET /compare`, `GET /phones`, `GET /phones/{name}`, `GET /health`, `POST /admin/reload` |
 | Web Interface | `static/index.html` | 3-Column Glassmorphic Workspace with cosmic starfield, soundwave input animation, live DB pulsing quantum loader, and dynamic comparator. |
@@ -93,7 +93,35 @@ curl -s localhost:8000/review -H 'content-type: application/json' -d '{"phone": 
 curl -s 'localhost:8000/compare?a=S23&b=S22&aspect=camera'
 ```
 
-## Using a local open-source LLM
+## LLM configuration
+
+The assignment setup uses the open-source `openai/gpt-oss-120b` model hosted on
+Groq's free tier. Create a Groq API key, copy `.env.example` to `.env`, and replace
+the placeholder key. Never commit `.env`.
+
+```dotenv
+LLM_BACKEND=openai
+OPENAI_BASE_URL=https://api.groq.com/openai/v1
+OPENAI_API_KEY=your_groq_api_key_here
+LLM_MODEL=openai/gpt-oss-120b
+```
+
+The application reads environment variables rather than loading `.env` itself. In
+PowerShell, load the file into the current terminal before starting the API:
+
+```powershell
+Get-Content .env | Where-Object { $_ -match '^[^#][^=]*=' } | ForEach-Object {
+    $name, $value = $_ -split '=', 2
+    Set-Item -Path "Env:$name" -Value $value
+}
+.\.venv\Scripts\python.exe -m uvicorn samsung_assistant.api:app --reload
+```
+
+Successful generated responses return `"llm_used": true`. If the provider is
+unavailable or its free-tier limit is reached, the API returns its deterministic,
+database-grounded answer and sets `llm_used` to `false`.
+
+### Local open-source alternative
 
 Install [Ollama](https://ollama.com/), then download and run a small instruct model:
 
@@ -105,10 +133,6 @@ $env:OPENAI_API_KEY = "ollama"
 $env:LLM_MODEL = "qwen2.5:1.5b"
 .\.venv\Scripts\python.exe -m uvicorn samsung_assistant.api:app --reload
 ```
-
-Successful generated responses return `"llm_used": true`. If the model service is
-unavailable, the chatbot returns its deterministic database-grounded answer and
-sets `llm_used` to `false`.
 
 ## CrewAI workflow
 
@@ -132,3 +156,4 @@ $env:CREWAI_BASE_URL = "http://localhost:11434"
 - Prices are values from each page's current `Misc → Price` row at scrape time; they may differ from launch and local retail prices.
 - Retrieval is TF-IDF (no embeddings download needed); swapping in `sentence-transformers` would only change `rag.py`.
 - GSMArena changes its markup and blocks heavy scraping; scrape once, keep the DB.
+- Hosted free-tier models have rate limits and can change; the deterministic fallback keeps the API usable.
