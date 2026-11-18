@@ -1,7 +1,9 @@
 # Samsung Phone Query & Review System
 
-Scrape Samsung specs from GSMArena → store them in PostgreSQL → answer questions with a RAG chatbot →
-generate reviews with a two-agent pipeline → expose everything through a FastAPI service.
+> **🌐 Live Deployment:** [https://samsung-phone-query-and-review-system.onrender.com](https://samsung-phone-query-and-review-system.onrender.com)  
+> **📚 Live API Documentation (Swagger):** [https://samsung-phone-query-and-review-system.onrender.com/docs](https://samsung-phone-query-and-review-system.onrender.com/docs)
+
+Scrape Samsung specs from GSMArena → store them in PostgreSQL / SQLite → answer questions with a RAG chatbot (powered by Google Gemini free tier) → generate reviews with a two-agent pipeline → expose everything through a FastAPI service and interactive web UI.
 
 ```
 GSMArena ──scraper──▶ PostgreSQL ──▶ Retriever (entity detection + TF-IDF over spec chunks)

@@ -5,6 +5,8 @@ Dear Hiring Team,
 
 Please find my submission for the Python Software Intern assignment (Samsung Phone Query and Review System).
 
+- Live Web Application: https://samsung-phone-query-and-review-system.onrender.com
+- Live API Documentation (Swagger): https://samsung-phone-query-and-review-system.onrender.com/docs
 - GitHub repository: https://github.com/MirajHossain22/Samsung-Phone-Query-and-Review-System
 - Project video (Google Drive, link sharing on): <paste your Google Drive video link here>
 
