@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: samsung-phone-assistant
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python -m samsung_assistant.seed
+    startCommand: uvicorn samsung_assistant.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: LLM_BACKEND
+        value: gemini
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: gemini-3.1-flash-lite
