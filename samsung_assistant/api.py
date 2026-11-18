@@ -1,6 +1,7 @@
 """FastAPI service.   uvicorn samsung_assistant.api:app --reload   ->   http://localhost:8000/docs"""
 from __future__ import annotations
 
+import json
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -51,7 +52,13 @@ def create_app(db: Database | None = None) -> FastAPI:
     def index():
         static_index = Path(__file__).parent / "static" / "index.html"
         if static_index.exists():
-            return HTMLResponse(content=static_index.read_text(encoding="utf-8"))
+            html = static_index.read_text(encoding="utf-8")
+            try:
+                phones = state["repo"].list_phones()
+                html = html.replace("__SERVER_PHONES_JSON__", json.dumps(phones))
+            except Exception:
+                html = html.replace("__SERVER_PHONES_JSON__", "[]")
+            return HTMLResponse(content=html)
         return HTMLResponse(content="<h1>Samsung Phone Assistant API</h1><p>Visit <a href='/docs'>/docs</a></p>")
 
     @app.get("/health")

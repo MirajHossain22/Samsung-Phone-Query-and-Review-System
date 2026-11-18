@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -29,12 +29,12 @@
               950: '#022c22',
             },
             dark: {
-              bg: '#080d0b',
-              sidebar: '#0c1310',
-              card: '#101a15',
-              cardHover: '#14221b',
-              border: 'rgba(16, 185, 129, 0.15)',
-              borderStrong: 'rgba(16, 185, 129, 0.35)',
+              bg: '#050907',
+              sidebar: '#08100d',
+              card: '#0d1813',
+              cardHover: '#12221b',
+              border: 'rgba(16, 185, 129, 0.16)',
+              borderStrong: 'rgba(52, 211, 153, 0.35)',
             }
           }
         }
@@ -42,56 +42,71 @@
     }
   </script>
   <style>
-    body {
-      background-color: #080d0b;
-      color: #e5e7eb;
-      background-image: 
-        linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
-      background-size: 32px 32px;
+    :root {
+      color-scheme: dark;
     }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.2); border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.4); }
+    body {
+      background-color: #050907;
+      color: #e5e7eb;
+      /* Multi-layered luminous aurora background */
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -15%, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.05) 55%, transparent 100%),
+        radial-gradient(circle at 90% 85%, rgba(20, 184, 166, 0.1), transparent 45%),
+        radial-gradient(circle at 10% 70%, rgba(16, 185, 129, 0.08), transparent 40%),
+        radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px),
+        linear-gradient(rgba(16, 185, 129, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px, 36px 36px;
+      background-attachment: fixed;
+    }
 
-    /* Prose styling for AI answers */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.25); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(52, 211, 153, 0.45); }
+
+    /* Markdown prose styling */
     .prose-dark { color: #d1d5db; }
     .prose-dark strong { color: #f9fafb; font-weight: 600; }
     .prose-dark ul { list-style-type: disc; padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
     .prose-dark li { margin-bottom: 0.25rem; }
-    .prose-dark h1, .prose-dark h2, .prose-dark h3 { color: #34d399; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; }
+    .prose-dark h1, .prose-dark h2, .prose-dark h3 { color: #34d399; font-weight: 700; margin-top: 0.75rem; margin-bottom: 0.5rem; }
     .prose-dark p { margin-bottom: 0.5rem; line-height: 1.6; }
-    .prose-dark code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: rgba(16, 185, 129, 0.12); padding: 0.15rem 0.35rem; border-radius: 0.25rem; color: #a7f3d0; }
+    .prose-dark code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: rgba(16, 185, 129, 0.14); padding: 0.15rem 0.35rem; border-radius: 0.25rem; color: #a7f3d0; }
+    .prose-dark table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem; }
+    .prose-dark th { text-align: left; padding: 0.5rem 0.75rem; background: rgba(16, 185, 129, 0.12); color: #34d399; border-bottom: 1px solid rgba(16, 185, 129, 0.3); font-family: 'JetBrains Mono', monospace; }
+    .prose-dark td { padding: 0.45rem 0.75rem; border-bottom: 1px solid rgba(16, 185, 129, 0.1); }
+    .prose-dark tr:hover td { background: rgba(16, 185, 129, 0.05); }
 
-    /* Micro-interactions & animations (make-interfaces-feel-better + liquid-glass) */
-    .interactive-card {
+    /* Glass card micro-interactions */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(13, 24, 19, 0.85) 0%, rgba(9, 16, 13, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
       transition-property: transform, border-color, box-shadow, background-color;
       transition-duration: 200ms;
       transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .interactive-card:hover {
+    .glass-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(52, 211, 153, 0.4);
-      background-color: #14221b;
-      box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.18), 0 0 0 1px rgba(16, 185, 129, 0.25);
+      border-color: rgba(52, 211, 153, 0.45);
+      box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.22), inset 0 1px 0 0 rgba(52, 211, 153, 0.2);
     }
-    .interactive-card:active {
-      transform: scale(0.97);
+    .glass-card:active {
+      transform: scale(0.98);
     }
 
-    .interactive-phone {
+    .glass-phone-item {
       transition-property: transform, background-color, border-color;
       transition-duration: 160ms;
       transition-timing-function: ease-out;
     }
-    .interactive-phone:hover {
+    .glass-phone-item:hover {
       transform: translateX(4px);
-      background-color: #14221b;
+      background-color: rgba(18, 34, 27, 0.9);
       border-color: rgba(52, 211, 153, 0.4);
-    }
-    .interactive-phone:active {
-      transform: scale(0.98);
     }
 
     .interactive-btn {
@@ -100,13 +115,13 @@
       transition-timing-function: ease-out;
     }
     .interactive-btn:active {
-      transform: scale(0.93);
+      transform: scale(0.94);
     }
 
-    /* Input typing aura pulse */
+    /* Input typing aura */
     .input-aura-active {
       border-color: rgba(52, 211, 153, 0.6) !important;
-      box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.35), 0 0 0 1px rgba(16, 185, 129, 0.5) !important;
+      box-shadow: 0 0 30px -4px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     }
 
     /* Bouncing wave dots */
@@ -121,7 +136,6 @@
       40% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* Typewriter cursor */
     .typewriter-cursor::after {
       content: '▋';
       margin-left: 2px;
@@ -141,59 +155,73 @@
   <div class="flex-1 flex overflow-hidden">
 
     <!-- Sidebar -->
-    <aside class="w-80 border-r border-dark-border bg-dark-sidebar/95 backdrop-blur-xl flex flex-col justify-between p-4 hidden md:flex">
-      <div class="flex flex-col gap-5 overflow-hidden">
-        <!-- Logo -->
-        <div class="flex items-center gap-3 px-2">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-bold">
+    <aside class="w-84 border-r border-dark-border bg-dark-sidebar/90 backdrop-blur-2xl flex flex-col justify-between p-4 hidden md:flex shrink-0 shadow-2xl">
+      <div class="flex flex-col gap-4 overflow-hidden">
+        <!-- Logo Header -->
+        <div class="flex items-center gap-3 px-1.5 pt-1">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 via-brand-600 to-emerald-950 flex items-center justify-center shadow-lg shadow-brand-500/25 text-white font-bold border border-emerald-400/30">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
           </div>
           <div>
-            <h1 class="text-sm font-semibold text-white tracking-wide">Samsung Assistant</h1>
-            <p class="text-xs text-brand-400 font-mono">RAG & Multi-Agent Intelligence</p>
+            <h1 class="text-sm font-bold text-white tracking-wide">Samsung Assistant</h1>
+            <p class="text-[11px] text-brand-400 font-mono flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+              RAG & Multi-Agent System
+            </p>
           </div>
         </div>
 
         <!-- Phone Catalog Card -->
-        <div class="bg-dark-card/90 border border-dark-border rounded-2xl p-4 flex flex-col gap-3 shadow-lg">
+        <div class="bg-dark-card/90 border border-dark-border rounded-2xl p-3.5 flex flex-col gap-2.5 shadow-xl">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-brand-400 uppercase tracking-wider font-mono flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span>
-              Database Catalog
+              <span>Database Models</span>
             </span>
-            <span id="phone-count" class="text-xs px-2 py-0.5 rounded-full bg-brand-900/60 text-brand-400 border border-brand-500/30 font-mono">12 phones</span>
+            <span id="phone-count" class="text-[11px] px-2.5 py-0.5 rounded-full bg-brand-950 text-brand-300 border border-brand-500/30 font-mono font-medium">12 models</span>
           </div>
-          <p class="text-xs text-gray-400">Click a model to inspect specs, compare, or trigger a multi-agent review.</p>
-          <div id="phone-list" class="flex flex-col gap-1.5 max-h-56 overflow-y-auto pr-1">
-            <div class="text-xs text-gray-500 py-2 text-center">Loading phone catalog...</div>
+
+          <!-- Catalog Search Input -->
+          <div class="relative">
+            <input 
+              id="catalog-search" 
+              type="text" 
+              placeholder="Filter (e.g. S23, Ultra)..." 
+              oninput="filterCatalog(this.value)"
+              class="w-full bg-dark-bg/80 border border-dark-border focus:border-brand-500 text-xs text-gray-200 placeholder-gray-500 rounded-lg px-2.5 py-1.5 outline-none transition font-mono"
+            />
+          </div>
+
+          <!-- Catalog List with Instant Server Preload -->
+          <div id="phone-list" class="flex flex-col gap-1.5 max-h-60 overflow-y-auto pr-1">
+            <!-- Will be filled instantly by server-injected JS -->
           </div>
         </div>
 
-        <!-- System Architecture Pill -->
-        <div class="bg-dark-card/60 border border-dark-border/80 rounded-xl p-3 text-xs text-gray-400 space-y-1.5 font-mono shadow-sm">
-          <div class="flex items-center justify-between text-gray-300">
-            <span>LLM Backend:</span>
-            <span id="llm-pill" class="text-brand-400 font-semibold flex items-center gap-1">
+        <!-- System Architecture Card -->
+        <div class="bg-dark-card/60 border border-dark-border/80 rounded-xl p-3 text-xs text-gray-300 space-y-1.5 font-mono shadow-sm">
+          <div class="flex items-center justify-between text-gray-400">
+            <span>LLM:</span>
+            <span id="llm-pill" class="text-brand-300 font-semibold flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Gemini 3.1 Flash
             </span>
           </div>
-          <div class="flex items-center justify-between text-gray-300">
+          <div class="flex items-center justify-between text-gray-400">
             <span>Multi-Agent:</span>
-            <span class="text-brand-400">SpecRetrieval → ReviewWriter</span>
+            <span class="text-brand-300 font-medium">SpecRetrieval → ReviewWriter</span>
           </div>
-          <div class="flex items-center justify-between text-gray-300">
-            <span>Database:</span>
-            <span class="text-brand-400">PostgreSQL / SQLite</span>
+          <div class="flex items-center justify-between text-gray-400">
+            <span>Grounding:</span>
+            <span class="text-emerald-400">100% Database Facts</span>
           </div>
         </div>
       </div>
 
       <!-- Bottom User Tag -->
-      <div class="pt-4 border-t border-dark-border flex items-center justify-between text-xs text-gray-400">
+      <div class="pt-3 border-t border-dark-border flex items-center justify-between text-xs text-gray-400">
         <div class="flex items-center gap-2">
-          <div class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></div>
-          <span class="text-gray-300 font-mono">System Live</span>
+          <div class="w-2 h-2 rounded-full bg-brand-500 animate-ping"></div>
+          <span class="text-gray-300 font-mono text-[11px]">System Online</span>
         </div>
         <a href="/docs" target="_blank" class="text-xs text-brand-400 hover:text-brand-300 underline font-mono flex items-center gap-1">
           <span>API Docs</span>
@@ -203,18 +231,18 @@
     </aside>
 
     <!-- Chat Viewport -->
-    <main class="flex-1 flex flex-col bg-dark-bg/60 backdrop-blur-sm relative overflow-hidden">
+    <main class="flex-1 flex flex-col bg-dark-bg/40 backdrop-blur-sm relative overflow-hidden">
 
-      <!-- Top Bar -->
-      <header class="h-14 border-b border-dark-border px-6 flex items-center justify-between bg-dark-sidebar/40">
+      <!-- Top Header Bar -->
+      <header class="h-14 border-b border-dark-border px-6 flex items-center justify-between bg-dark-sidebar/50 backdrop-blur-md">
         <div class="flex items-center gap-3">
           <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-brand-950 text-brand-400 border border-brand-800/80 font-mono tracking-wider">WORKSPACE</span>
-          <span class="text-xs text-gray-400 hidden sm:inline font-mono">Grounded: 100% database specifications • No hallucinations</span>
+          <span class="text-xs text-gray-400 hidden sm:inline font-mono">Real-time GSMArena database RAG • No hallucination</span>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="clearChat()" class="interactive-btn text-xs px-3 py-1.5 rounded-lg border border-dark-border text-gray-400 hover:text-white hover:bg-dark-card transition flex items-center gap-1">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            <span>Reset</span>
+            <span>Reset Chat</span>
           </button>
         </div>
       </header>
@@ -222,55 +250,55 @@
       <!-- Message History Container -->
       <div id="chat-messages" class="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-6">
 
-        <!-- Welcome Hero (shown when empty) -->
+        <!-- Welcome Hero (shown when chat is empty) -->
         <div id="welcome-hero" class="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto py-10 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-950/80 border border-brand-500/30 text-brand-400 text-xs font-mono tracking-widest uppercase shadow-sm">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-950/90 border border-brand-500/40 text-brand-400 text-xs font-mono tracking-widest uppercase shadow-lg shadow-brand-500/10">
             <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             EVIDENCE, NOT GUESSWORK
           </div>
 
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
             Ask about Samsung phones.<br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200">Get answers you can trace.</span>
           </h2>
 
-          <p class="text-sm text-gray-400 max-w-lg leading-relaxed">
-            Query camera and display specs, rank battery capacities, compare phones side-by-side, or run our collaborative multi-agent review pipeline.
+          <p class="text-sm text-gray-300 max-w-lg leading-relaxed">
+            Query camera specs, battery capacities, compare models side-by-side, or run our collaborative multi-agent review pipeline.
           </p>
 
           <!-- Prompt Starter Cards -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full text-left pt-2">
-            <button onclick="askPreset('What are the camera specs of the Samsung Galaxy S23?')" class="interactive-card p-4 rounded-xl bg-dark-card border border-dark-border flex flex-col justify-between h-36 text-left group">
+            <button onclick="askPreset('What are the camera specs of the Samsung Galaxy S23?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-brand-400 font-mono font-medium">01 • Camera</span>
                 <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
               </div>
-              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3 leading-relaxed">What are the camera specs of the Samsung Galaxy S23?</p>
-              <span class="text-[11px] text-brand-400/80 group-hover:text-brand-300 font-mono flex items-center gap-1">
+              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">What are the camera specs of the Samsung Galaxy S23?</p>
+              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
                 <span>Ask spec sheet</span>
                 <span class="group-hover:translate-x-1 transition-transform">→</span>
               </span>
             </button>
 
-            <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="interactive-card p-4 rounded-xl bg-dark-card border border-dark-border flex flex-col justify-between h-36 text-left group">
+            <button onclick="askPreset('Which Samsung phone has the best battery life?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-brand-400 font-mono font-medium">02 • Ranking</span>
                 <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
               </div>
-              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3 leading-relaxed">Which Samsung phone has the best battery life?</p>
-              <span class="text-[11px] text-brand-400/80 group-hover:text-brand-300 font-mono flex items-center gap-1">
+              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">Which Samsung phone has the best battery life?</p>
+              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
                 <span>Compute rank</span>
                 <span class="group-hover:translate-x-1 transition-transform">→</span>
               </span>
             </button>
 
-            <button onclick="askPreset('How does the Galaxy S23 compare to the S22 in terms of performance?')" class="interactive-card p-4 rounded-xl bg-dark-card border border-dark-border flex flex-col justify-between h-36 text-left group">
+            <button onclick="askPreset('How does the Galaxy S23 compare to the S22 in terms of performance?')" class="glass-card p-4 rounded-2xl flex flex-col justify-between h-36 text-left group">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-brand-400 font-mono font-medium">03 • Compare</span>
                 <span class="w-2 h-2 rounded-full bg-brand-500/40 group-hover:bg-brand-400 transition"></span>
               </div>
-              <p class="text-xs font-medium text-gray-200 group-hover:text-white line-clamp-3 leading-relaxed">How does the Galaxy S23 compare to the S22 in performance?</p>
-              <span class="text-[11px] text-brand-400/80 group-hover:text-brand-300 font-mono flex items-center gap-1">
+              <p class="text-xs font-medium text-gray-100 group-hover:text-white line-clamp-3 leading-relaxed">How does the Galaxy S23 compare to the S22 in performance?</p>
+              <span class="text-[11px] text-brand-400 group-hover:text-brand-300 font-mono flex items-center gap-1">
                 <span>Side-by-side</span>
                 <span class="group-hover:translate-x-1 transition-transform">→</span>
               </span>
@@ -279,7 +307,7 @@
 
           <!-- Multi-Agent Pill Button -->
           <div class="pt-2">
-            <button onclick="askPreset('Review Samsung Galaxy S23 Ultra')" class="interactive-btn inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-brand-950 border border-brand-500/40 text-brand-300 text-xs font-medium hover:bg-brand-900/60 hover:text-white transition shadow-lg shadow-brand-500/10">
+            <button onclick="askPreset('Review Samsung Galaxy S23 Ultra')" class="interactive-btn inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-950 via-emerald-950 to-brand-950 border border-brand-500/40 text-brand-300 text-xs font-semibold hover:border-brand-400 hover:text-white transition shadow-xl shadow-brand-500/10">
               <div class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></div>
               <span>Run Multi-Agent Review on <strong>Galaxy S23 Ultra</strong> (SpecRetrieval → ReviewWriter)</span>
             </button>
@@ -292,7 +320,7 @@
       <div class="p-4 sm:p-6 bg-gradient-to-t from-dark-bg via-dark-bg/95 to-transparent">
         <div class="max-w-3xl mx-auto">
           <form id="chat-form" onsubmit="handleSubmit(event)" class="relative flex items-center">
-            <div id="input-wrapper" class="w-full relative rounded-2xl border border-dark-border transition duration-200 bg-dark-card shadow-lg">
+            <div id="input-wrapper" class="w-full relative rounded-2xl border border-dark-border transition duration-200 bg-dark-card shadow-2xl">
               <input 
                 id="user-input" 
                 type="text" 
@@ -303,7 +331,7 @@
               <button 
                 id="send-btn" 
                 type="submit" 
-                class="interactive-btn absolute right-2.5 top-2 w-9 h-9 rounded-xl bg-brand-500/30 text-brand-400 font-bold flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed"
+                class="interactive-btn absolute right-2.5 top-2 w-9 h-9 rounded-xl bg-brand-500/25 text-brand-400 font-bold flex items-center justify-center transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <svg id="send-icon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
               </button>
@@ -311,7 +339,7 @@
           </form>
 
           <!-- Footer Credit -->
-          <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-500 font-mono px-2">
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-gray-400 font-mono px-2">
             <span class="flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
               Context: 12 flagship models in structured DB
@@ -325,24 +353,69 @@
   </div>
 
   <script>
+    // Server-injected phones data (renders instantly with 0ms network wait)
+    const SERVER_PHONES = __SERVER_PHONES_JSON__;
+
     const chatMessages = document.getElementById('chat-messages');
     const welcomeHero = document.getElementById('welcome-hero');
     const userInput = document.getElementById('user-input');
     const inputWrapper = document.getElementById('input-wrapper');
     const sendBtn = document.getElementById('send-btn');
     const sendIcon = document.getElementById('send-icon');
+    let allPhonesCache = [];
+
+    // Render phone list into the sidebar
+    function renderPhoneList(phones) {
+      allPhonesCache = phones || [];
+      const phoneList = document.getElementById('phone-list');
+      if (!phoneList) return;
+
+      if (!phones || !phones.length) {
+        phoneList.innerHTML = '<div class="text-xs text-gray-500 py-3 text-center">No models in database.</div>';
+        return;
+      }
+
+      document.getElementById('phone-count').textContent = `${phones.length} models`;
+
+      phoneList.innerHTML = phones.map(p => {
+        const cam = p.main_camera_mp ? `${p.main_camera_mp}MP` : '';
+        const bat = p.battery_mah ? `${p.battery_mah}mAh` : '';
+        const disp = p.display_size_in ? `${p.display_size_in}"` : '';
+        const badges = [cam, bat, disp].filter(Boolean).join(' • ');
+
+        return `
+          <div class="glass-phone-item p-2 rounded-xl bg-dark-bg/70 border border-dark-border text-left group flex flex-col gap-1 cursor-pointer" onclick="askPreset('Tell me about the ${p.name}')">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-200 group-hover:text-white truncate">${p.name}</span>
+              <span class="text-[10px] text-brand-400 font-mono group-hover:translate-x-0.5 transition-transform">→</span>
+            </div>
+            ${badges ? `<span class="text-[10px] text-gray-400 font-mono">${badges}</span>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterCatalog(term) {
+      const q = term.toLowerCase().trim();
+      if (!q) {
+        renderPhoneList(allPhonesCache);
+        return;
+      }
+      const filtered = allPhonesCache.filter(p => p.name.toLowerCase().includes(q));
+      renderPhoneList(filtered);
+    }
 
     // Input typing reactive animations
     userInput.addEventListener('input', () => {
       const val = userInput.value.trim();
       if (val.length > 0) {
         inputWrapper.classList.add('input-aura-active');
-        sendBtn.classList.remove('bg-brand-500/30', 'text-brand-400');
+        sendBtn.classList.remove('bg-brand-500/25', 'text-brand-400');
         sendBtn.classList.add('bg-brand-500', 'text-dark-bg', 'shadow-md', 'shadow-brand-500/30', 'scale-105');
         sendIcon.classList.add('rotate-45');
       } else {
         inputWrapper.classList.remove('input-aura-active');
-        sendBtn.classList.add('bg-brand-500/30', 'text-brand-400');
+        sendBtn.classList.add('bg-brand-500/25', 'text-brand-400');
         sendBtn.classList.remove('bg-brand-500', 'text-dark-bg', 'shadow-md', 'shadow-brand-500/30', 'scale-105');
         sendIcon.classList.remove('rotate-45');
       }
@@ -358,8 +431,14 @@
       }
     });
 
-    // Fetch health and phones on load
+    // Initialize: immediate render of pre-injected phones + fetch health
     async function initApp() {
+      // 1. Immediately render preloaded phones with 0 latency
+      if (Array.isArray(SERVER_PHONES) && SERVER_PHONES.length > 0) {
+        renderPhoneList(SERVER_PHONES);
+      }
+
+      // 2. Fetch live data as confirmation
       try {
         const [healthRes, phonesRes] = await Promise.all([
           fetch('/health'),
@@ -371,15 +450,8 @@
         if (health.llm_backend) {
           document.getElementById('llm-pill').textContent = health.llm_backend.toUpperCase();
         }
-        if (phones && phones.length) {
-          document.getElementById('phone-count').textContent = `${phones.length} phones`;
-          const phoneList = document.getElementById('phone-list');
-          phoneList.innerHTML = phones.map(p => `
-            <button onclick="askPreset('Tell me about the ${p.name}')" class="interactive-phone text-left text-xs px-2.5 py-1.5 rounded-lg bg-dark-bg/60 border border-dark-border text-gray-300 hover:text-white transition flex items-center justify-between">
-              <span class="truncate">${p.name}</span>
-              <span class="text-[10px] text-brand-400 font-mono">→</span>
-            </button>
-          `).join('');
+        if (Array.isArray(phones) && phones.length > 0) {
+          renderPhoneList(phones);
         }
       } catch (err) {
         console.warn('Initial data load warning:', err);
@@ -407,10 +479,8 @@
       userInput.dispatchEvent(new Event('input'));
       welcomeHero.classList.add('hidden');
 
-      // Append user bubble
       appendUserMessage(query);
 
-      // Append multi-agent animated loading bubble
       const loadingId = appendMultiAgentLoadingBubble();
       sendBtn.disabled = true;
 
@@ -452,7 +522,7 @@
       const msg = document.createElement('div');
       msg.className = 'flex justify-end';
       msg.innerHTML = `
-        <div class="max-w-xl bg-brand-900/60 border border-brand-500/40 text-gray-100 px-4 py-3 rounded-2xl rounded-tr-none text-sm shadow-md">
+        <div class="max-w-xl bg-gradient-to-r from-brand-900 to-emerald-950 border border-brand-500/40 text-gray-100 px-4 py-3 rounded-2xl rounded-tr-none text-sm shadow-xl font-medium">
           ${escapeHtml(text)}
         </div>
       `;
@@ -469,7 +539,7 @@
         <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/40 flex items-center justify-center text-brand-400 shrink-0 shadow-sm">
           <svg class="w-4 h-4 animate-spin text-brand-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
         </div>
-        <div class="bg-dark-card border border-dark-border px-4 py-3 rounded-2xl rounded-tl-none shadow-md flex items-center gap-3">
+        <div class="bg-dark-card border border-dark-border px-4 py-3 rounded-2xl rounded-tl-none shadow-xl flex items-center gap-3">
           <div class="flex items-center gap-1">
             <span class="w-2 h-2 rounded-full bg-brand-400 wave-dot"></span>
             <span class="w-2 h-2 rounded-full bg-brand-400 wave-dot"></span>
@@ -483,7 +553,6 @@
       chatMessages.appendChild(msg);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      // Cycle thinking text
       setTimeout(() => {
         const txt = document.getElementById(`${id}-text`);
         if (txt) {
@@ -499,18 +568,15 @@
       if (el) el.remove();
     }
 
-    // Typewriter streaming effect for smooth, animated answers
     async function streamTypewriter(container, markdownText) {
       const words = markdownText.split(/(\s+)/);
       let currentText = '';
       container.classList.add('typewriter-cursor');
 
-      // Group into small token chunks for fast, organic typing
       for (let i = 0; i < words.length; i++) {
         currentText += words[i];
         container.innerHTML = marked.parse(currentText);
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        // Fast organic delay
         if (i % 3 === 0) {
           await new Promise(r => setTimeout(r, 12));
         }
@@ -526,13 +592,13 @@
       const intentLabel = data.intent ? data.intent.toUpperCase() : 'ANSWER';
 
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/30 flex items-center justify-center text-brand-400 shrink-0 shadow-sm">
+        <div class="w-8 h-8 rounded-lg bg-dark-card border border-brand-500/40 flex items-center justify-center text-brand-400 shrink-0 shadow-md">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
         </div>
-        <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none shadow-md space-y-2.5 flex-1">
+        <div class="bg-dark-card border border-dark-border border-l-4 border-l-brand-400 px-5 py-4 rounded-2xl rounded-tl-none shadow-xl space-y-2.5 flex-1">
           <div class="flex items-center gap-2 font-mono text-[11px]">
-            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80">${intentLabel}</span>
-            ${data.llm_used ? '<span class="text-emerald-400">● Gemini Grounded</span>' : '<span class="text-gray-400">● Database Formatted</span>'}
+            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-bold">${intentLabel}</span>
+            ${data.llm_used ? '<span class="text-emerald-400 flex items-center gap-1 font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>Gemini Grounded</span>' : '<span class="text-gray-400">● Database Formatted</span>'}
           </div>
           <div id="target-chat-body-${Date.now()}" class="prose-dark text-sm leading-relaxed"></div>
         </div>
@@ -560,18 +626,18 @@
       }
 
       const tracePills = (data.trace || []).map(t => `
-        <span class="px-2 py-0.5 rounded bg-dark-bg text-brand-400 border border-dark-border font-mono text-[10px] flex items-center gap-1.5 shadow-sm">
-          <span class="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse"></span> ${escapeHtml(t.agent)}
+        <span class="px-2.5 py-1 rounded-lg bg-dark-bg text-brand-300 border border-dark-border font-mono text-[10px] flex items-center gap-1.5 shadow-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span> ${escapeHtml(t.agent)}
         </span>
       `).join('');
 
       msg.innerHTML = `
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-brand-950 border border-brand-500/40 flex items-center justify-center text-white shrink-0 shadow-md">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-emerald-950 border border-brand-400/40 flex items-center justify-center text-white shrink-0 shadow-lg">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
         </div>
-        <div class="bg-dark-card border border-dark-border px-5 py-4 rounded-2xl rounded-tl-none shadow-md space-y-3 flex-1">
-          <div class="flex flex-wrap items-center gap-2 pb-2 border-b border-dark-border">
-            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-mono text-[11px]">MULTI-AGENT REVIEW</span>
+        <div class="bg-dark-card border border-dark-border border-l-4 border-l-brand-400 px-5 py-4 rounded-2xl rounded-tl-none shadow-xl space-y-3 flex-1">
+          <div class="flex flex-wrap items-center gap-2 pb-2.5 border-b border-dark-border">
+            <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-400 border border-brand-800/80 font-mono text-[11px] font-bold">MULTI-AGENT REVIEW</span>
             <div class="flex items-center gap-1.5">${tracePills}</div>
           </div>
           <div id="target-review-body-${Date.now()}" class="prose-dark text-sm leading-relaxed"></div>
