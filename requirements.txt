@@ -1,0 +1,18 @@
+# core
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.0
+scikit-learn>=1.4
+numpy>=1.26
+pydantic>=2.5
+# API
+fastapi>=0.110
+uvicorn[standard]>=0.29
+httpx>=0.27          # FastAPI TestClient
+# database
+psycopg2-binary>=2.9 # PostgreSQL (SQLite needs nothing)
+# tests
+pytest>=8.0
+# optional
+# crewai[litellm]>=1.15,<2  # multi-agent via CrewAI (crew_adapter.py)
+# transformers torch   # LLM_BACKEND=hf (local open-source model)
