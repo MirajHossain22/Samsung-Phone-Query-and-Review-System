@@ -207,7 +207,8 @@ def test_api_endpoints(monkeypatch):
     with TestClient(create_app(db)) as c:
         assert c.get("/").status_code == 200
         assert c.get("/input.js").headers["content-type"].startswith("text/javascript")
-        assert c.get("/health").json()["phones_in_db"] == 12
+        health = c.get("/health").json()
+        assert health["phones_in_db"] == 12 and health["llm_model"] == "deterministic"
         assert "6.1 inches" in c.post("/chat", json={"question": "screen size of the Galaxy S22?"}).json()["answer"]
         assert c.post("/review", json={"phone": "S23 Ultra"}).json()["found"] is True
         assert c.post("/review", json={"phone": "Nokia 3310"}).status_code == 404

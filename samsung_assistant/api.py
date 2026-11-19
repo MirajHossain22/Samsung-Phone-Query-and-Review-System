@@ -75,7 +75,7 @@ def create_app(db: Database | None = None) -> FastAPI:
     @app.get("/health")
     def health():
         return {"status": "ok", "phones_in_db": state["repo"].count(),
-                "llm_backend": state["llm"].backend}
+                "llm_backend": state["llm"].backend, "llm_model": state["llm"].model}
 
     @app.get("/phones")
     def phones():

@@ -2961,7 +2961,7 @@
         <span class="text-[10px] uppercase font-bold section-title tracking-wider">Architecture</span>
         <div class="flex items-center justify-between meta-label">
           <span>Backend:</span>
-          <span class="text-emerald-500 font-bold" id="llm-pill">Gemini 3.1</span>
+          <span class="text-emerald-500 font-bold" id="llm-pill">Loading...</span>
         </div>
         <div class="flex items-center justify-between meta-label">
           <span>Multi-Agent:</span>
@@ -3480,7 +3480,8 @@
         const phones = await phonesRes.json();
 
         if (health.llm_backend) {
-          document.getElementById('llm-pill').textContent = health.llm_backend.toUpperCase();
+          const model = health.llm_model || health.llm_backend;
+          document.getElementById('llm-pill').textContent = model.includes('gpt-oss-120b') ? 'GPT-OSS 120B' : model;
         }
         if (Array.isArray(phones) && phones.length > 0) {
           renderPhoneCards(phones);

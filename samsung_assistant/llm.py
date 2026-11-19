@@ -34,6 +34,16 @@ class LLM:
     def enabled(self) -> bool:
         return self.backend in ("openai", "hf", "gemini", "google")
 
+    @property
+    def model(self) -> str:
+        if self.backend in ("gemini", "google"):
+            return os.getenv("LLM_MODEL", "gemini-3.1-flash-lite")
+        if self.backend == "openai":
+            return os.getenv("LLM_MODEL", "gpt-4o-mini")
+        if self.backend == "hf":
+            return os.getenv("HF_MODEL", "Qwen/Qwen2.5-1.5B-Instruct")
+        return "deterministic"
+
     def generate(self, system: str, user: str, max_tokens: int = 500) -> Optional[str]:
         """Return generated text, or None if disabled / failed (caller falls back)."""
         if not self.enabled:
@@ -52,8 +62,7 @@ class LLM:
         key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or os.getenv("GOOGLE_GENERATIVE_AI_API_KEY")
         if not key:
             raise ValueError("GEMINI_API_KEY or GOOGLE_API_KEY environment variable is required")
-        model = os.getenv("LLM_MODEL", "gemini-3.1-flash-lite")
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={key}"
         payload = {
             "systemInstruction": {"parts": [{"text": system}]},
             "contents": [{"parts": [{"text": user}]}],
@@ -69,7 +78,7 @@ class LLM:
             f"{base}/chat/completions",
             headers={"Authorization": f"Bearer {os.getenv('OPENAI_API_KEY', 'none')}"},
             json={
-                "model": os.getenv("LLM_MODEL", "gpt-4o-mini"),
+                "model": self.model,
                 "temperature": 0.2,
                 "max_tokens": max_tokens,
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
